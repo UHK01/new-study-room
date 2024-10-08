@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/index.css">
+    <title>勉強ルーム</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="./images/icon.png">
+    <link rel="icon" type="image/png" href="./images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/icon.png">
+    <meta name="robots" content="noindex" />
+</head>
+<script type="text/javascript">
+    responce_check = false;
+
+    function switchByWidth(){
+        if (window.matchMedia('(max-width: 300px)').matches) {
+            document.getElementById("web").innerHTML = "申し訳ございません。お客様の端末では当サイトを表示することができません。横画面もしくは他のデバイスをご利用ください。";
+            responce_check = true;
+        } else if (window.matchMedia('(min-width:300px)')) {
+            if (responce_check) {
+                location.reload();
+                responce_check = false;
+            }
+        }
+    }
+
+    window.addEventListener('load' , () => {
+        switchByWidth();
+    })
+
+    window.onresize = switchByWidth;
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJLP66B5G');
+</script>
+<body>
+    <div class="web" id="web">
+        <h1>勉強ルーム</h1>
+        <span class=news>お知らせ</span>
+        <div class="box" id="box">
+            <div>
+                <span class="red">[重要]プログラミング言語をPHPからJS(JavaScript)へ変更いたしました。</span><br>このアップデートにより下記の内容が変更されました。<br>1.言語変更に伴いサーバーレンタルが不要となったため有料プランを削除しました。<br>また有料プラン削除に伴い赤シート機能も削除しました。<br>2.言語変更に伴い実装が難しくなったためマイページ機能を削除しました。<br>3.テキストのみで提供していましたHTMLViewerを削除しました。<br>4.削除機能(非公開機能)がシステム上の理由で削除を行ってもファイルが閲覧できます。<br>
+                <!-- <span class="red"><h2>サービス終了のお知らせ</h2></span>
+                <br>
+                <span class="red">[重要]</span>詳しくは<a href="./view/html_view?id=7">こちら</a>
+                <br>
+                <span class="red">[重要]</span>DNSサービスを一部変更しました。<br>詳しくは<a href="./view/html_view?id=6">こちら</a>
+                <br>
+                <span class="red">[重要]</span>アップロードデータの削除のお知らせ<br>詳しくは<a href="./view/html_view?id=5">こちら</a>
+                <br>
+                <span class="red">[重要]</span>全てのファイルを削除しました。
+                <br>
+                <span class="red">[重要]</span>サーバーメンテナンスのお知らせ<br>詳しくは<a href="./view/html_view?id=4">こちら</a>
+                <br>
+                <span class="red">[重要]</span>マイページ(beta)をリリースしました!<br>右上のユーザーアイコンからご利用ください。 -->
+            </div>
+        </div>
+        <br>
+        <div class="file_list_title">ファイルリスト</div>
+        <div class="list">
+            <table class="files">
+                <tr id="table_title">
+                    <th class="border file_name">ファイル名</th>
+                    <th class="border status">状態</th>
+                    <th class="border tag">タグ</th>
+                    <th class="border other">/</th>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div class="hidden_box" id="hidden_box">※PWAをご利用するには?↓(選択)</div>
+        <div class="hidden" id="hidden">PWA(Progressive Web Apps)システムに対応しました。<br>PWAとはアプリのように利用することができ、全画面表記でご利用いただくことが可能です。<br>ご利用方法はiPhone/iPadをお使いの場合はsafariを開き、共有アイコンよりホーム画面に追加を選択することでご利用いただけます。<br>Androidの場合はChromeを開き右上の点を選択し、ホーム画面に追加またはアプリをインストールでご利用いただけます。<br>Win/Macの場合はブラウザ名+pwaでお調べください。</div>
+        <br>
+        <a href="./source_code_info" class="manage">当サイトについて</a>
+    <script src="./config/file_data.js"></script>
+    <script src="./js/main.js"></script>
+    <script>
+        status_check(1);
+        const table_title = document.getElementById("table_title");
+        file_data.forEach(d => {
+            const add_data = `<tr>
+                    <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
+                    <td class="border status">${status_check(d.status)}</span></td>
+                    <td class="border tag">${d.tags}</td>
+                    <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
+                </tr>`;
+            table_title.insertAdjacentHTML('afterend',add_data);
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener("load", function() {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+        document.getElementById('hidden_box').addEventListener('click', ()=> {
+                document.getElementById('hidden').classList.toggle('visable');
+            });
+    </script>
+</body>
+</html>

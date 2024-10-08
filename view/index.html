@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" defer type="text/javascript"></script>
+    <title id="title">Loading...</title>
+    <link rel="icon" type="image/png" href="../images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
+    <meta name="robots" content="noindex" />
+</head>
+<script type="text/javascript">
+    responce_check = false;
+
+    function switchByWidth(){
+        if (window.matchMedia('(max-width: 300px)').matches) {
+            document.getElementById("web").innerHTML = "申し訳ございません。お客様の端末では当サイトを表示することができません。横画面もしくは他のデバイスをご利用ください。";
+            responce_check = true;
+        } else if (window.matchMedia('(min-width:300px)')) {
+            if (responce_check) {
+                location.reload();
+                responce_check = false;
+            }
+        }
+    }
+
+    window.addEventListener('load' , () => {
+        switchByWidth();
+    })
+
+    window.onresize = switchByWidth;
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJLP66B5G');
+</script>
+<body>
+    <div class="web" id="web">
+        <div id="error">Loading...</div>
+        <div id="file_name">Loading...</div>
+        <div id="file_status">Loading...</div>
+        <div id="file_tag">Loading...</div>
+        <a href="../">戻る</a>
+        <div id="pdf" class=pdf_link>Loading...</div>
+        <br>
+        <div id="image_tap"></div>
+        <div id="image" class="image_data"><img src="../images/loading.gif" alt="loading..." class="loading_log"></div>
+        <br>
+        <a href="../">戻る</a>
+    </div>
+    <script src="../config/file_data.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        const error = document.getElementById("error");
+        try {
+            let url = new URL(window.location.href);
+            let params = url.searchParams;
+            const get_file_id = params.get('file_id');
+            const data = file_data.find((d) => d.id === Number(get_file_id));
+            if(!data) {
+                error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。<br>ファイルが存在しません。</h1>"
+            }
+            const file_name = data.file_name;
+            const file_path = data.file_path;
+            const file_pdf_path = data.file_pdf_path
+            const status = data.status;
+            const tag = data.tags;
+            if(status === 0) {
+                document.getElementById("title").innerHTML = file_name;
+                document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
+                document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
+                document.getElementById("file_tag").innerHTML = "タグ:"+tag;
+                document.getElementById("image_tap").innerHTML = "画像タップで拡大";
+                let add_image = "";
+                file_path.forEach(imda => {
+                    add_image = `${add_image}<div class=main_image_div><a href="${imda}" data-lightbox="group" id="image1"><img src="${imda}" alt="" class="main_image" id="screenimage1"></a></div>`
+                });
+                document.getElementById("image").innerHTML = add_image;
+                document.getElementById("pdf").innerHTML = `<a href=${file_pdf_path}>PDFで表示</a>`
+                error.innerHTML = "";
+            } else {
+                error.innerHTML = "<h1 class=red>エラー!<br>このファイルは利用できません</h1>"
+            }
+        } catch (e) {
+            error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。</h1>"
+        }
+    </script>
+</body>
+</html>

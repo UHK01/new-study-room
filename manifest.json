@@ -1,0 +1,13 @@
+{
+    "short_name": "New STUDY Room",
+    "name": "New STUDY Room",
+    "display": "standalone",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "images/pwa_icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
