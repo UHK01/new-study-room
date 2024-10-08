@@ -4,10 +4,6 @@ const file_data = [
         file_name:"歴史総合プリント答え",
         file_path: [
             "../data/rekisi/1.jpeg",
-            "../data/rekisi/1.jpeg",
-            "../data/rekisi/1.jpeg",
-            "../data/rekisi/1.jpeg",
-            "../data/rekisi/1.jpeg",
         ],
         file_pdf_path:"../data/rekisi/2.pdf",
         status:0,
