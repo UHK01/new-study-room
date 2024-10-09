@@ -15,7 +15,7 @@ const file_data = [
         file_path: [
             "../data/rekisi_answer/3.jpeg",
         ],
-        file_pdf_path:"../data/rekisi_answer/2.pdf",
+        file_pdf_path:"../data/rekisi_answer/3.pdf",
         status:0,
         tags:"歴史総合",
     }
