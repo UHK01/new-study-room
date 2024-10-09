@@ -11,7 +11,7 @@ const file_data = [
     },
     {
         id:2,
-        file_name:"歴史総合プリント答え",
+        file_name:"歴史総合プリント答え(仮）",
         file_path: [
             "../data/rekisi_answer/1.jpeg",
         ],
