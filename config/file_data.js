@@ -13,7 +13,7 @@ const file_data = [
         id:2,
         file_name:"歴史総合プリント答え",
         file_path: [
-            "../data/rekisi_answer/1.jpg",
+            "../data/rekisi_answer/1.jpeg",
         ],
         file_pdf_path:"../data/rekisi_answer/1.pdf",
         status:0,
