@@ -19,6 +19,39 @@ const file_data = [
         status:0,
         tags:"歴史総合",
     }
+    ,
+    {
+        id:3,
+        file_name:"森林経営 プリント",
+        file_path: [
+            "../data/sinrinkeiei/1.jpeg",
+        ],
+        file_pdf_path:"../data/sinrinkeiei/1.pdf",
+        status:0,
+        tags:"森林経営",
+    }
+    ,
+    {
+        id:4,
+        file_name:"森林経営 プリント答え",
+        file_path: [
+            "../data/sinrinkeiei/answer/1.jpeg",
+        ],
+        file_pdf_path:"../data/sinrinkeiei/answer/1.pdf",
+        status:0,
+        tags:"森林経営",
+    }
+    ,
+    {
+        id:5,
+        file_name:"森林経営 資料",
+        file_path: [
+            "../data/sinrinkeiei/siryou/1.jpeg",
+        ],
+        file_pdf_path:"../data/sinrinkeiei/siryou/1.pdf",
+        status:0,
+        tags:"森林経営",
+    }
 ]
 
 //status = 0=open 1=private 2=delete
