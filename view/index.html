@@ -70,15 +70,20 @@
         let url = new URL(window.location.href);
         let params = url.searchParams;
         const get_file_id = params.get('file_id');
-        client
-            .get({
-                endpoint: 'data',
-                queries: { ids: get_file_id },
-            })
-            .then((res) => {
-                file_data = res.contents;
-                view_file(file_data);
-            });
+        if (!get_file_id) {
+            error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。<br>ファイルが存在しません。</h1>"
+            error_display("Loading Error!")
+        } else {
+            client
+                .get({
+                    endpoint: 'data',
+                    queries: { ids: get_file_id },
+                })
+                .then((res) => {
+                    file_data = res.contents;
+                    view_file(file_data);
+                });
+        }
         function view_file(data){
             const error = document.getElementById("error");
             try {

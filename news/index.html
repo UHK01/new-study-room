@@ -65,36 +65,41 @@
         let url = new URL(window.location.href);
         let params = url.searchParams;
         const get_file_id = params.get('news_id');
-        try {
-            client
-                .get({
-                    endpoint: `news/${get_file_id}`,
-                })
-                .then((res) => {
-                    console.log(res);
-                        document.getElementById("title").innerHTML = res.title;
-                        document.getElementById("news_title").innerHTML = `<h3>${res.title}</h3>`;
-                        switch(res.rank) {
-                            case 0:
-                                document.getElementById("news_rank").innerHTML = `<span class=manage>お知らせ</span>`;
-                                break;
-                            case 1:
-                                document.getElementById("news_rank").innerHTML = `<span class=manage>追加</span>`;
-                                break;
-                            case 2:
-                                document.getElementById("news_rank").innerHTML = `<span class=red>重要</span>`;
-                                break;
-                        }
-                        document.getElementById("news_des").innerHTML = `${res.description}`;
-                        error.innerHTML = "";
-                    })
-                .catch(() => {
-                    error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>";
-                    error_display("Loding Error!");
-                });
-        } catch (error) {
-            error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>"
+        if(!get_file_id) {
+            error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>";
             error_display("Loding Error!");
+        } else {
+            try {
+                client
+                    .get({
+                        endpoint: `news/${get_file_id}`,
+                    })
+                    .then((res) => {
+                        console.log(res);
+                            document.getElementById("title").innerHTML = res.title;
+                            document.getElementById("news_title").innerHTML = `<h3>${res.title}</h3>`;
+                            switch(res.rank) {
+                                case 0:
+                                    document.getElementById("news_rank").innerHTML = `<span class=manage>お知らせ</span>`;
+                                    break;
+                                case 1:
+                                    document.getElementById("news_rank").innerHTML = `<span class=manage>追加</span>`;
+                                    break;
+                                case 2:
+                                    document.getElementById("news_rank").innerHTML = `<span class=red>重要</span>`;
+                                    break;
+                            }
+                            document.getElementById("news_des").innerHTML = `${res.description}`;
+                            error.innerHTML = "";
+                        })
+                    .catch(() => {
+                        error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>";
+                        error_display("Loding Error!");
+                    });
+            } catch (error) {
+                error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>"
+                error_display("Loding Error!");
+            }
         }
 
         function error_display(error) {
