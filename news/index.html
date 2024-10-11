@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" defer type="text/javascript"></script>
+    <title id="title">Loading...</title>
+    <link rel="icon" type="image/png" href="../images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
+    <meta name="robots" content="noindex" />
+</head>
+<script type="text/javascript">
+    responce_check = false;
+
+    function switchByWidth(){
+        if (window.matchMedia('(max-width: 300px)').matches) {
+            document.getElementById("web").innerHTML = "申し訳ございません。お客様の端末では当サイトを表示することができません。横画面もしくは他のデバイスをご利用ください。";
+            responce_check = true;
+        } else if (window.matchMedia('(min-width:300px)')) {
+            if (responce_check) {
+                location.reload();
+                responce_check = false;
+            }
+        }
+    }
+
+    window.addEventListener('load' , () => {
+        switchByWidth();
+    })
+
+    window.onresize = switchByWidth;
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJLP66B5G');
+</script>
+<body>
+    <div class="web" id="web">
+        <div id="error">Loading...</div>
+        <div id="news_title">Loading...</div>
+        <div id="news_rank">Loading...</div>
+        <div id="news_des">Loading...</div>
+        <br>
+        <a href="../">戻る</a>
+    </div>
+    <script src="../microcms-js-sdk.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        const { createClient } = microcms;
+        // クライアントオブジェクトを作成します。
+        const client = createClient({
+            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+            retry: true // 最大2回まで再試行します。
+        });
+        let file_data = "notfound"
+        let url = new URL(window.location.href);
+        let params = url.searchParams;
+        const get_file_id = params.get('news_id');
+        try {
+            client
+                .get({
+                    endpoint: `news/${get_file_id}`,
+                })
+                .then((res) => {
+                    console.log(res);
+                        document.getElementById("title").innerHTML = res.title;
+                        document.getElementById("news_title").innerHTML = `<h3>${res.title}</h3>`;
+                        switch(res.rank) {
+                            case 0:
+                                document.getElementById("news_rank").innerHTML = `<span class=manage>お知らせ</span>`;
+                                break;
+                            case 1:
+                                document.getElementById("news_rank").innerHTML = `<span class=manage>追加</span>`;
+                                break;
+                            case 2:
+                                document.getElementById("news_rank").innerHTML = `<span class=red>重要</span>`;
+                                break;
+                        }
+                        document.getElementById("news_des").innerHTML = `${res.description}`;
+                        error.innerHTML = "";
+                    })
+                .catch(() => {
+                    error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>";
+                    error_display("Loding Error!");
+                });
+        } catch (error) {
+            error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>"
+            error_display("Loding Error!");
+        }
+
+        function error_display(error) {
+            document.getElementById("title").innerHTML = `${error}`;
+            document.getElementById("news_title").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("news_rank").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("news_des").innerHTML = `<span class=red>${error}</span>`;
+        }
+    </script>
+</body>
+</html>

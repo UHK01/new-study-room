@@ -56,7 +56,6 @@
         <br>
         <a href="../">戻る</a>
     </div>
-    <!-- <script src="../config/file_data.js"></script> -->
     <script src="../microcms-js-sdk.js"></script>
     <script src="../js/main.js"></script>
     <script>
@@ -65,7 +64,7 @@
         const client = createClient({
             serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
             apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
-            // retry: true // 最大2回まで再試行します。
+            retry: true // 最大2回まで再試行します。
         });
         let file_data = "notfound"
         let url = new URL(window.location.href);
@@ -79,22 +78,19 @@
             .then((res) => {
                 file_data = res.contents;
                 view_file(file_data);
-                console.log(file_data);
             });
         function view_file(data){
             const error = document.getElementById("error");
             try {
                 if(!data) {
                     error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。<br>ファイルが存在しません。</h1>"
+                    error_display("Loading Error!")
                 }
-                console.log(data[0]);
                 const file_name = data[0].file_name;
                 const file_path = data[0].file_path;
-                // const file_path = data[0].test;
                 const file_pdf_path = data[0].file_pdf_path
                 const status = Number(data[0].status[0]);
                 const tag = data[0].tag;
-                console.log(data[0].test);
                 if(status === 0) {
                     document.getElementById("title").innerHTML = file_name;
                     document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
@@ -113,12 +109,23 @@
                     }
                     error.innerHTML = "";
                 } else {
-                    error.innerHTML = "<h1 class=red>エラー!<br>このファイルは利用できません</h1>"
+                    error.innerHTML = "<h1 class=red>エラー!<br>このファイルは非公開または削除されています。</h1>"
+                    error_display("Loading Error!")
                 }
             } catch (e) {
-                console.log(e)
-                error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。</h1>"
+                error.innerHTML = "<h1 class=red>エラー!<br>このページは存在しません</h1>"
+                error_display("Loading Error!")
             }
+        }
+
+        function error_display(error) {
+            document.getElementById("title").innerHTML = `${error}`;
+            document.getElementById("file_name").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("file_status").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("file_tag").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("image_tap").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("pdf").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("image").innerHTML = `<img src=../images/error.png class=loading_log>`;
         }
     </script>
 </body>

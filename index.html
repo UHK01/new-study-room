@@ -46,8 +46,8 @@
         <h1>勉強ルーム</h1>
         <span class=news>お知らせ</span>
         <div class="box" id="box">
-            <div>
-                <span class="red">[重要]プログラミング言語をPHPからJS(JavaScript)へ変更いたしました。</span><br>このアップデートにより下記の内容が変更されました。<br>1.言語変更に伴いサーバーレンタルが不要となったため有料プランを削除しました。<br>また有料プラン削除に伴い赤シート機能も削除しました。<br>2.言語変更に伴い実装が難しくなったためマイページ機能を削除しました。<br>3.テキストのみで提供していましたHTMLViewerを削除しました。<br>4.削除機能(非公開機能)がシステム上の理由で削除を行ってもファイルが閲覧できます。<br>5.Androidで利用がしにくかった問題を修正しました。<br>6.提供方法がPDFから画像へ変更しました。（尚引き続きPDFでのご利用もいただけます）
+            <div id="news_box_area">
+                <!-- <span class="red">[重要]プログラミング言語をPHPからJS(JavaScript)へ変更いたしました。</span><br>このアップデートにより下記の内容が変更されました。<br>1.言語変更に伴いサーバーレンタルが不要となったため有料プランを削除しました。<br>また有料プラン削除に伴い赤シート機能も削除しました。<br>2.言語変更に伴い実装が難しくなったためマイページ機能を削除しました。<br>3.テキストのみで提供していましたHTMLViewerを削除しました。<br>4.削除機能(非公開機能)がシステム上の理由で削除を行ってもファイルが閲覧できます。<br>5.Androidで利用がしにくかった問題を修正しました。<br>6.提供方法がPDFから画像へ変更しました。（尚引き続きPDFでのご利用もいただけます） -->
                 <!-- <span class="red"><h2>サービス終了のお知らせ</h2></span>
                 <br>
                 <span class="red">[重要]</span>詳しくは<a href="./view/html_view?id=7">こちら</a>
@@ -83,15 +83,48 @@
         <a href="./source_code_info" class="manage">当サイトについて</a>
     </div>
     <script src="./microcms-js-sdk.js"></script>
-    <script src="./js/main.js"></script>
     <script>
         const { createClient } = microcms;
         // クライアントオブジェクトを作成します。
         const client = createClient({
             serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
             apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
-            // retry: true // 最大2回まで再試行します。
+            retry: true // 最大2回まで再試行します。
         });
+        client
+            .get({
+                endpoint: 'news',
+            })
+            .then((res) => {
+                console.log(res);
+                const news_box = document.getElementById("news_box_area");
+                let add_data = "お知らせはありません";
+                news_box.innerHTML = `<span class=red>${add_data}</span>`
+                res.contents.forEach(d => {
+                    if(d.status) {
+                        if(document.getElementById("news_box_area").innerText === "お知らせはありません") {
+                            news_box.innerHTML = ``;
+                        }
+                        switch(d.rank) {
+                            case 0:
+                                add_data = `<div><a href=./news/?news_id=${d.id}><span class=manage>[お知らせ]</span><span class=black>${d.title}</span>詳細はこちら</a></div>`
+                                news_box.insertAdjacentHTML('beforeend',add_data);
+                                break;
+                            case 1:
+                                add_data = `<div><span class=manage>[追加]</span><span class=black>${d.title}</span></div>`
+                                news_box.insertAdjacentHTML('beforeend',add_data);
+                                break;
+                            case 2:
+                                add_data = `<div><a href=./news/?news_id=${d.id}><span class=red>[重要]${d.title}</span>詳細はこちら</a></div>`
+                                news_box.insertAdjacentHTML('beforeend',add_data);
+                                break;
+                        }
+                    }
+                })
+            });
+    </script>
+    <script src="./js/main.js"></script>
+    <script>
         let file_data = "notfound"
         client
             .get({
@@ -100,7 +133,6 @@
             .then((res) => {
                 file_data = res.contents;
                 file_set(file_data);
-                // console.log(file_data.length);
             });
             function file_set(file_data) {
                 if(file_data.length === 0) {

@@ -459,3 +459,7 @@ body {
 .notfile {
     text-align: center;
 }
+
+.black {
+    color: black;
+}
