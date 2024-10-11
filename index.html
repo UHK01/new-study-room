@@ -74,26 +74,50 @@
                     <th class="border other">/</th>
                 </tr>
             </table>
+            <div id="error" class="notfile"></div>
         </div>
         <br>
         <div class="hidden_box" id="hidden_box">※PWAをご利用するには?↓(選択)</div>
         <div class="hidden" id="hidden">PWA(Progressive Web Apps)システムに対応しました。<br>PWAとはアプリのように利用することができ、全画面表記でご利用いただくことが可能です。<br>ご利用方法はiPhone/iPadをお使いの場合はsafariを開き、共有アイコンよりホーム画面に追加を選択することでご利用いただけます。<br>Androidの場合はChromeを開き右上の点を選択し、ホーム画面に追加またはアプリをインストールでご利用いただけます。<br>Win/Macの場合はブラウザ名+pwaでお調べください。</div>
         <br>
         <a href="./source_code_info" class="manage">当サイトについて</a>
-    <script src="./config/file_data.js"></script>
+    </div>
+    <script src="./microcms-js-sdk.js"></script>
     <script src="./js/main.js"></script>
     <script>
-        status_check(1);
-        const table_title = document.getElementById("table_title");
-        file_data.forEach(d => {
-            const add_data = `<tr>
-                    <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
-                    <td class="border status">${status_check(d.status)}</span></td>
-                    <td class="border tag">${d.tags}</td>
-                    <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
-                </tr>`;
-            table_title.insertAdjacentHTML('afterend',add_data);
+        const { createClient } = microcms;
+        // クライアントオブジェクトを作成します。
+        const client = createClient({
+            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+            // retry: true // 最大2回まで再試行します。
         });
+        let file_data = "notfound"
+        client
+            .get({
+                endpoint: 'data',
+            })
+            .then((res) => {
+                file_data = res.contents;
+                file_set(file_data);
+                // console.log(file_data.length);
+            });
+            function file_set(file_data) {
+                if(file_data.length === 0) {
+                    document.getElementById("error").innerHTML = "<span class=red>ファイルが存在しません</span>"
+                }
+                const table_title = document.getElementById("table_title");
+                file_data.forEach(d => {
+                    const add_data = `<tr>
+                            <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
+                            <td class="border status">${status_check(Number(d.status[0]))}</span></td>
+                            <td class="border tag">${d.tag}</td>
+                            <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
+                        </tr>`;
+                    table_title.insertAdjacentHTML('afterend',add_data);
+                });
+
+            }
     </script>
     <script>
         if ('serviceWorker' in navigator) {

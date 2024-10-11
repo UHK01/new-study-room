@@ -251,6 +251,7 @@ body {
 
 .status {
     width: 49px;
+    text-align: center;
 }
 
 .tag {
@@ -308,7 +309,7 @@ body {
         border-radius: 30px;
     }
     .file_name {
-        width: 280px;
+        width: 250px;
     }
 
     .tag {
@@ -452,5 +453,9 @@ body {
 }
 
 .loading_log {
+    text-align: center;
+}
+
+.notfile {
     text-align: center;
 }

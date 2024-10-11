@@ -56,41 +56,69 @@
         <br>
         <a href="../">戻る</a>
     </div>
-    <script src="../config/file_data.js"></script>
+    <!-- <script src="../config/file_data.js"></script> -->
+    <script src="../microcms-js-sdk.js"></script>
     <script src="../js/main.js"></script>
     <script>
-        const error = document.getElementById("error");
-        try {
-            let url = new URL(window.location.href);
-            let params = url.searchParams;
-            const get_file_id = params.get('file_id');
-            const data = file_data.find((d) => d.id === Number(get_file_id));
-            if(!data) {
-                error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。<br>ファイルが存在しません。</h1>"
+        const { createClient } = microcms;
+        // クライアントオブジェクトを作成します。
+        const client = createClient({
+            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+            // retry: true // 最大2回まで再試行します。
+        });
+        let file_data = "notfound"
+        let url = new URL(window.location.href);
+        let params = url.searchParams;
+        const get_file_id = params.get('file_id');
+        client
+            .get({
+                endpoint: 'data',
+                queries: { ids: get_file_id },
+            })
+            .then((res) => {
+                file_data = res.contents;
+                view_file(file_data);
+                console.log(file_data);
+            });
+        function view_file(data){
+            const error = document.getElementById("error");
+            try {
+                if(!data) {
+                    error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。<br>ファイルが存在しません。</h1>"
+                }
+                console.log(data[0]);
+                const file_name = data[0].file_name;
+                const file_path = data[0].file_path;
+                // const file_path = data[0].test;
+                const file_pdf_path = data[0].file_pdf_path
+                const status = Number(data[0].status[0]);
+                const tag = data[0].tag;
+                console.log(data[0].test);
+                if(status === 0) {
+                    document.getElementById("title").innerHTML = file_name;
+                    document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
+                    document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
+                    document.getElementById("file_tag").innerHTML = "タグ:"+tag;
+                    document.getElementById("image_tap").innerHTML = "画像タップで拡大";
+                    let add_image = "";
+                    file_path.forEach(imda => {
+                        add_image = `${add_image}<div class=main_image_div><a href="${imda.url}" data-lightbox="group" id="image1"><img src="${imda.url}" alt="" class="main_image" id="screenimage1"></a></div>`
+                    });
+                    document.getElementById("image").innerHTML = add_image;
+                    if(file_pdf_path === "not") {
+                        document.getElementById("pdf").innerHTML = `<span class=red>PDF準備中</span>`
+                    } else {
+                        document.getElementById("pdf").innerHTML = `<a href=${file_pdf_path}>PDFで表示</a>`
+                    }
+                    error.innerHTML = "";
+                } else {
+                    error.innerHTML = "<h1 class=red>エラー!<br>このファイルは利用できません</h1>"
+                }
+            } catch (e) {
+                console.log(e)
+                error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。</h1>"
             }
-            const file_name = data.file_name;
-            const file_path = data.file_path;
-            const file_pdf_path = data.file_pdf_path
-            const status = data.status;
-            const tag = data.tags;
-            if(status === 0) {
-                document.getElementById("title").innerHTML = file_name;
-                document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
-                document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
-                document.getElementById("file_tag").innerHTML = "タグ:"+tag;
-                document.getElementById("image_tap").innerHTML = "画像タップで拡大";
-                let add_image = "";
-                file_path.forEach(imda => {
-                    add_image = `${add_image}<div class=main_image_div><a href="${imda}" data-lightbox="group" id="image1"><img src="${imda}" alt="" class="main_image" id="screenimage1"></a></div>`
-                });
-                document.getElementById("image").innerHTML = add_image;
-                document.getElementById("pdf").innerHTML = `<a href=${file_pdf_path}>PDFで表示</a>`
-                error.innerHTML = "";
-            } else {
-                error.innerHTML = "<h1 class=red>エラー!<br>このファイルは利用できません</h1>"
-            }
-        } catch (e) {
-            error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。</h1>"
         }
     </script>
 </body>
