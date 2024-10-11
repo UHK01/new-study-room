@@ -13,9 +13,9 @@ const file_data = [
         id:2,
         file_name:"歴史総合プリント答え",
         file_path: [
-            "../data/rekisi_answer/4.jpeg",
+            "../data/rekisi/answer/4.jpeg",
         ],
-        file_pdf_path:"../data/rekisi_answer/4.pdf",
+        file_pdf_path:"../data/rekisi/answer/4.pdf",
         status:0,
         tags:"歴史総合",
     }
