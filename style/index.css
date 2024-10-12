@@ -456,10 +456,15 @@ body {
     text-align: center;
 }
 
-.notfile {
+/* .notfile {
     text-align: center;
-}
+} */
 
 .black {
     color: black;
+}
+
+.border {
+    border: 1px solid black;
+    border-radius: 5px;
 }

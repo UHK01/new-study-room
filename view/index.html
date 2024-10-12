@@ -51,7 +51,7 @@
         <a href="../">戻る</a>
         <div id="pdf" class=pdf_link>Loading...</div>
         <br>
-        <div id="image_tap"></div>
+        <div id="image_tap">Loading...</div>
         <div id="image" class="image_data"><img src="../images/loading.gif" alt="loading..." class="loading_log"></div>
         <br>
         <a href="../">戻る</a>
@@ -132,6 +132,14 @@
             document.getElementById("pdf").innerHTML = `<span class=red>${error}</span>`;
             document.getElementById("image").innerHTML = `<img src=../images/error.png class=loading_log>`;
         }
+
+        window.setTimeout (() => {
+        if(document.getElementById("image_tap").innerText === "Loading...") {
+            error_display("Loadin Error!");
+            document.getElementById("error").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。</span>`;
+        } else {
+        }
+    },10000)
     </script>
 </body>
 </html>

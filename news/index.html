@@ -47,7 +47,11 @@
         <div id="error">Loading...</div>
         <div id="news_title">Loading...</div>
         <div id="news_rank">Loading...</div>
-        <div id="news_des">Loading...</div>
+        <div id="news_up_data">Loading...</div>
+        <div id="news_change_data">Loading...</div>
+        <br>
+        <div id="des">Loading...</div>
+        <div id="news_des" class="border">Loading...</div>
         <br>
         <a href="../">戻る</a>
     </div>
@@ -75,7 +79,6 @@
                         endpoint: `news/${get_file_id}`,
                     })
                     .then((res) => {
-                        console.log(res);
                             document.getElementById("title").innerHTML = res.title;
                             document.getElementById("news_title").innerHTML = `<h3>${res.title}</h3>`;
                             switch(res.rank) {
@@ -89,7 +92,10 @@
                                     document.getElementById("news_rank").innerHTML = `<span class=red>重要</span>`;
                                     break;
                             }
+                            document.getElementById("news_up_data").innerHTML = `アップロード日:${res.createdAt}`;
+                            document.getElementById("news_change_data").innerHTML = `最終更新日:${res.updatedAt}`;
                             document.getElementById("news_des").innerHTML = `${res.description}`;
+                            document.getElementById("des").innerHTML = `詳細`;
                             error.innerHTML = "";
                         })
                     .catch(() => {
@@ -107,7 +113,19 @@
             document.getElementById("news_title").innerHTML = `<span class=red>${error}</span>`;
             document.getElementById("news_rank").innerHTML = `<span class=red>${error}</span>`;
             document.getElementById("news_des").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("news_up_data").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("des").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("news_change_data").innerHTML = `<span class=red>${error}</span>`;
         }
+
+        window.setTimeout (() => {
+        if(document.getElementById("news_des").innerText === "Loading...") {
+            error_display("Loding Error!");
+            document.getElementById("news_des").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。</span>`;
+            document.getElementById("error").innerHTML = `<span class=red>Loding Error!</span>`;
+        } else {
+        }
+    },10000)
     </script>
 </body>
 </html>

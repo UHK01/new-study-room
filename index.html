@@ -47,6 +47,7 @@
         <span class=news>お知らせ</span>
         <div class="box" id="box">
             <div id="news_box_area">
+                Loading...
             </div>
         </div>
         <br>
@@ -60,7 +61,7 @@
                     <th class="border other">/</th>
                 </tr>
             </table>
-            <div id="error" class="notfile"></div>
+            <div id="error" class="notfile">Loading...</div>
         </div>
         <br>
         <div class="hidden_box" id="hidden_box">※PWAをご利用するには?↓(選択)</div>
@@ -82,7 +83,6 @@
                 endpoint: 'news',
             })
             .then((res) => {
-                console.log(res);
                 const news_box = document.getElementById("news_box_area");
                 let add_data = "お知らせはありません";
                 news_box.innerHTML = `<span class=red>${add_data}</span>`
@@ -120,22 +120,42 @@
                 file_data = res.contents;
                 file_set(file_data);
             });
-            function file_set(file_data) {
-                if(file_data.length === 0) {
-                    document.getElementById("error").innerHTML = "<span class=red>ファイルが存在しません</span>"
-                }
-                const table_title = document.getElementById("table_title");
-                file_data.forEach(d => {
-                    const add_data = `<tr>
-                            <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
-                            <td class="border status">${status_check(Number(d.status[0]))}</span></td>
-                            <td class="border tag">${d.tag}</td>
-                            <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
-                        </tr>`;
-                    table_title.insertAdjacentHTML('afterend',add_data);
-                });
-
+        function file_set(file_data) {
+            if(file_data.length === 0) {
+                document.getElementById("error").innerHTML = "<span class=red>ファイルが存在しません</span>"
             }
+            document.getElementById("error").innerHTML = ""
+            const table_title = document.getElementById("table_title");
+            file_data.forEach(d => {
+                const add_data = `<tr>
+                        <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
+                        <td class="border status">${status_check(Number(d.status[0]))}</span></td>
+                        <td class="border tag">${d.tag}</td>
+                        <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
+                    </tr>`;
+                table_title.insertAdjacentHTML('afterend',add_data);
+            });
+
+        }
+        function error_display(error) {
+            document.getElementById("title").innerHTML = `${error}`;
+            document.getElementById("news_box_area").innerHTML = `<span class=red>${error}</span>`;
+        }
+
+        window.setTimeout (() => {
+            if(document.getElementById("error").innerText === "Loading...") {
+                // error_display("Loding Error!");
+                document.getElementById("error").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。</span>`;
+            } else {
+            }
+        },10000)
+        window.setTimeout (() => {
+            if(document.getElementById("news_box_area").innerText === "Loading...") {
+                // error_display("Loding Error!");
+                document.getElementById("news_box_area").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。</span>`;
+            } else {
+            }
+        },10000)
     </script>
     <script>
         if ('serviceWorker' in navigator) {
