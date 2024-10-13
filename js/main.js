@@ -9,6 +9,9 @@ function status_check(num) {
         case 2:
             return "<span class=delete>削除</span>";
             break;
+        case 3:
+            return "<span class=limit>限定公開</span>";
+            break;
         default:
             return "Error!";
     }

@@ -126,14 +126,17 @@
             }
             document.getElementById("error").innerHTML = ""
             const table_title = document.getElementById("table_title");
-            file_data.forEach(d => {
-                const add_data = `<tr>
-                        <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
-                        <td class="border status">${status_check(Number(d.status[0]))}</span></td>
-                        <td class="border tag">${d.tag}</td>
-                        <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
-                    </tr>`;
-                table_title.insertAdjacentHTML('afterend',add_data);
+            file_data.reverse().forEach(d => {
+                if(Number(d.status[0]) === 3) {
+                } else {
+                    let add_data = `<tr>
+                            <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
+                            <td class="border status">${status_check(Number(d.status[0]))}</span></td>
+                            <td class="border tag">${d.tag}</td>
+                            <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
+                        </tr>`;
+                    table_title.insertAdjacentHTML('afterend',add_data);
+                }
             });
 
         }

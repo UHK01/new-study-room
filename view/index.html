@@ -96,7 +96,7 @@
                 const file_pdf_path = data[0].file_pdf_path
                 const status = Number(data[0].status[0]);
                 const tag = data[0].tag;
-                if(status === 0) {
+                if(status === 0 || status === 3) {
                     document.getElementById("title").innerHTML = file_name;
                     document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
                     document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
