@@ -12,6 +12,28 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
     <meta name="robots" content="noindex" />
 </head>
+<script src="../microcms-js-sdk.js"></script>
+<script>
+        const { createClient } = microcms;
+    // クライアントオブジェクトを作成します。
+    const client = createClient({
+        serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+        apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+        retry: true // 最大2回まで再試行します。
+    });
+    let file_data = "notfound"
+    let url = new URL(window.location.href);
+    let params = url.searchParams;
+    const get_file_id = params.get('file_id');
+    client
+        .get({
+            endpoint: 'data',
+            queries: { ids: get_file_id },
+        })
+        .then((res) => {
+            document.getElementById("title").innerHTML = res.contents[0].file_name;
+        });
+</script>
 <script type="text/javascript">
     responce_check = false;
 
@@ -36,11 +58,17 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    const loading_finish = setInterval(google,100);
+    function google() {
+        if(document.getElementById("title").innerText !== "Loading...") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-  gtag('config', 'G-9RJLP66B5G');
+            gtag('config', 'G-9RJLP66B5G');
+            clearInterval(loading_finish);
+        }
+    }
 </script>
 <body>
     <div class="web" id="web">
@@ -58,20 +86,8 @@
         <br>
         <a href="../">戻る</a>
     </div>
-    <script src="../microcms-js-sdk.js"></script>
     <script src="../js/main.js"></script>
     <script>
-        const { createClient } = microcms;
-        // クライアントオブジェクトを作成します。
-        const client = createClient({
-            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
-            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
-            retry: true // 最大2回まで再試行します。
-        });
-        let file_data = "notfound"
-        let url = new URL(window.location.href);
-        let params = url.searchParams;
-        const get_file_id = params.get('file_id');
         if (!get_file_id) {
             error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。<br>ファイルが存在しません。</h1>"
             error_display("Loading Error!")
@@ -100,7 +116,6 @@
                 const tag = data[0].tag;
                 const des = data[0].description;
                 if(status === 0 || status === 3) {
-                    document.getElementById("title").innerHTML = file_name;
                     document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
                     document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
                     document.getElementById("file_tag").innerHTML = "タグ:"+tag;

@@ -12,6 +12,27 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
     <meta name="robots" content="noindex" />
 </head>
+<script src="../microcms-js-sdk.js"></script>
+<script>
+    const { createClient } = microcms;
+    // クライアントオブジェクトを作成します。
+    const client = createClient({
+        serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+        apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+        retry: true // 最大2回まで再試行します。
+    });
+    let file_data = "notfound"
+    let url = new URL(window.location.href);
+    let params = url.searchParams;
+    const get_file_id = params.get('news_id');
+    client
+        .get({
+            endpoint: `news/${get_file_id}`,
+        })
+        .then((res) => {
+            document.getElementById("title").innerHTML = res.title;
+        })
+</script>
 <script type="text/javascript">
     responce_check = false;
 
@@ -36,11 +57,17 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    const loading_finish = setInterval(google,100);
+    function google() {
+        if(document.getElementById("title").innerText !== "Loading...") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-  gtag('config', 'G-9RJLP66B5G');
+            gtag('config', 'G-9RJLP66B5G');
+            clearInterval(loading_finish);
+        }
+    }
 </script>
 <body>
     <div class="web" id="web">
@@ -55,20 +82,8 @@
         <br>
         <a href="../">戻る</a>
     </div>
-    <script src="../microcms-js-sdk.js"></script>
     <script src="../js/main.js"></script>
     <script>
-        const { createClient } = microcms;
-        // クライアントオブジェクトを作成します。
-        const client = createClient({
-            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
-            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
-            retry: true // 最大2回まで再試行します。
-        });
-        let file_data = "notfound"
-        let url = new URL(window.location.href);
-        let params = url.searchParams;
-        const get_file_id = params.get('news_id');
         if(!get_file_id) {
             error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>";
             error_display("Loding Error!");
@@ -79,7 +94,6 @@
                         endpoint: `news/${get_file_id}`,
                     })
                     .then((res) => {
-                            document.getElementById("title").innerHTML = res.title;
                             document.getElementById("news_title").innerHTML = `<h3>${res.title}</h3>`;
                             switch(res.rank) {
                                 case 0:
