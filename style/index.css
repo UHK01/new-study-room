@@ -16,8 +16,9 @@ a {
 
 body {
     background-image: url(../images/background.gif);
-    background-position: center;
-    background-size: contain;
+    background-repeat: repeat;
+    /* background-position: center;
+    background-size: contain; */
 }
 .maintenance {
     color: blue;
