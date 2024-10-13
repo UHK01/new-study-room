@@ -121,7 +121,7 @@
         window.setTimeout (() => {
         if(document.getElementById("news_des").innerText === "Loading...") {
             error_display("Loding Error!");
-            document.getElementById("news_des").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。</span>`;
+            document.getElementById("news_des").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。<br>エラーが発生していない場合は現在も読込中です。</span>`;
             document.getElementById("error").innerHTML = `<span class=red>Loding Error!</span>`;
         } else {
         }
