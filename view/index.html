@@ -14,7 +14,7 @@
 </head>
 <script src="../microcms-js-sdk.js"></script>
 <script>
-        const { createClient } = microcms;
+    const { createClient } = microcms;
     // クライアントオブジェクトを作成します。
     const client = createClient({
         serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
@@ -134,7 +134,7 @@
                         // document.getElementById("pdf").innerHTML = `<span class=red>PDF準備中</span>`
                         document.getElementById("pdf").innerHTML = ``
                     } else {
-                        document.getElementById("pdf").innerHTML = `<a href=${file_pdf_path}>PDFで表示</a>`
+                        document.getElementById("pdf").innerHTML = `<a href=../loadpdf/?file_id=${get_file_id}>PDFで表示</a>`
                     }
                     error.innerHTML = "";
                 } else {
