@@ -115,6 +115,7 @@
         client
             .get({
                 endpoint: 'data',
+                queries: { filters: 'status[contains]0' },
             })
             .then((res) => {
                 file_data = res.contents;
