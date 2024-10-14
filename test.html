@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/index.css">
+    <title>Source Code</title>
+    <link rel="icon" type="image/png" href="../images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
+    <meta name="robots" content="noindex" />
+</head>
+<script type="text/javascript">
+    responce_check = false;
+
+    function switchByWidth(){
+        if (window.matchMedia('(max-width: 300px)').matches) {
+            document.getElementById("web").innerHTML = "申し訳ございません。お客様の端末では当サイトを表示することができません。横画面もしくは他のデバイスをご利用ください。";
+            responce_check = true;
+        } else if (window.matchMedia('(min-width:300px)')) {
+            if (responce_check) {
+                location.reload();
+                responce_check = false;
+            }
+        }
+    }
+
+    window.addEventListener('load' , () => {
+        switchByWidth();
+    })
+
+    window.onresize = switchByWidth;
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJLP66B5G');
+</script>
+<body>
+    <div class="web" id="web">
+        <h1>当サイトについて</h1>
+        <div>
+            当サイトでは、オープンソースソフトウェアとなっており、以下のリンクから当サイトのソースコードをご確認いただけます。ソースコードに脆弱性や修正がある場合はGitHub上でIssuesをお願いします。尚公開されるソースコードは機密情報を省いて公開しております。ご了承ください。
+            <br>
+            <a href="https://github.com/UHK01/new-study-room">SourceCode</a>
+        </div>
+        <br>
+        <a href="../">戻る</a>
+    </div>
+</body>
+</html>
+
