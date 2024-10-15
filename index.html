@@ -35,14 +35,19 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-9RJLP66B5G');
+    if(localStorage.getItem("googleskip")) {
+    } else {
+        console.log(1);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'G-9RJLP66B5G');
+    }
 </script>
 <body>
     <div class="web" id="web">
+        <div id="skip"></div>
         <h1>勉強ルーム</h1>
         <span class=news>お知らせ</span>
         <div class="box" id="box">
@@ -160,6 +165,9 @@
             } else {
             }
         },10000)
+        if(localStorage.getItem("googleskip")) {
+            document.getElementById("skip").innerHTML = "Skip!";
+        }
     </script>
     <script>
         if ('serviceWorker' in navigator) {

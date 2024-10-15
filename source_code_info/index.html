@@ -33,14 +33,18 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-9RJLP66B5G');
+    if(localStorage.getItem("googleskip")) {
+    } else {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'G-9RJLP66B5G');
+    }
 </script>
 <body>
     <div class="web" id="web">
+        <div id="skip"></div>
         <h1>当サイトについて</h1>
         <div>
             当サイトでは、オープンソースソフトウェアとなっており、以下のリンクから当サイトのソースコードをご確認いただけます。ソースコードに脆弱性や修正がある場合はGitHub上でIssuesをお願いします。尚公開されるソースコードは機密情報を省いて公開しております。ご了承ください。
@@ -50,6 +54,11 @@
         <br>
         <a href="../">戻る</a>
     </div>
+    <script>
+        if(localStorage.getItem("googleskip")) {
+            document.getElementById("skip").innerHTML = "Skip!";
+        }
+    </script>
 </body>
 </html>
 

@@ -59,18 +59,22 @@
 <script>
     const loading_finish = setInterval(google,100);
     function google() {
-        if(document.getElementById("title").innerText !== "Loading...") {
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-9RJLP66B5G');
-            clearInterval(loading_finish);
+        if(localStorage.getItem("googleskip")) {
+        } else {
+            if(document.getElementById("title").innerText !== "Loading...") {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+    
+                gtag('config', 'G-9RJLP66B5G');
+            }
         }
+        clearInterval(loading_finish);
     }
 </script>
 <body>
     <div class="web" id="web">
+        <div id="skip"></div>
         <div id="error">Loading...</div>
         <div id="news_title">Loading...</div>
         <div id="news_rank">Loading...</div>
@@ -140,6 +144,9 @@
         } else {
         }
     },10000)
+    if(localStorage.getItem("googleskip")) {
+        document.getElementById("skip").innerHTML = "Skip!";
+    }
     </script>
 </body>
 </html>

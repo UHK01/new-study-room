@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="skip"></div>
+    <div id="but"></div>
+</body>
+<script>
+    if(!localStorage.getItem("googleskip")) {
+        localStorage.setItem("googleskip",true);
+        document.getElementById("skip").innerHTML = "Skip Success!";
+    } else {
+        document.getElementById("skip").innerHTML = "Skiping!";
+        document.getElementById("but").innerHTML = "<button id=noskip>Not Skip?</button>";
+        document.getElementById("but").addEventListener("click", () => {
+            remove_skip();    
+        })
+    }
+    function remove_skip() {
+        localStorage.removeItem("googleskip");
+        document.getElementById("skip").innerHTML = "No Skip Success!";
+    }
+</script>
+</html>
