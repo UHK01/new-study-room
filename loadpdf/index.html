@@ -10,6 +10,7 @@
 <script>
 </script>
 <body>
+    <div id="skip"></div>
     <h1 id="main_title">PDF読み込み中...</h1>
     <div id="msg">しばらくお待ち下さい</div>
     <div id="error"></div>
@@ -45,11 +46,15 @@
                             if(document.getElementById("title").innerText !== "LoadingPDF...") {
                                 document.getElementById("main_title").innerText = "転送中..."
                                 document.getElementById("msg").innerText = "まもなくです"
-                                window.dataLayer = window.dataLayer || [];
-                                function gtag(){dataLayer.push(arguments);}
-                                gtag('js', new Date());
-                
-                                gtag('config', 'G-9RJLP66B5G');
+                                if(localStorage.getItem("googleskip")) {
+                                    document.getElementById("skip").innerHTML = "Skip!";
+                                } else {
+                                    window.dataLayer = window.dataLayer || [];
+                                    function gtag(){dataLayer.push(arguments);}
+                                    gtag('js', new Date());
+                    
+                                    gtag('config', 'G-9RJLP66B5G');
+                                }
                                 clearInterval(loading_finish);
                                 window.setTimeout(() => {
                                     location.replace(pdf_link);
