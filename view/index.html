@@ -137,7 +137,7 @@
                     if(expand.length !== 0) {
                         document.getElementById("file_expand").innerHTML = "関連ファイル:<br>";
                         expand.forEach((ed) => {
-                            document.getElementById("file_expand").insertAdjacentHTML("beforeend",`<a href=?file_id=${ed.id}>${ed.file_name} はこちら</a><br>`);
+                            document.getElementById("file_expand").insertAdjacentHTML("beforeend",`<a href=?file_id=${ed.id}>${ed.file_name}</a><br>`);
                         })
                     } else {
                         document.getElementById("file_expand").innerHTML = "";
