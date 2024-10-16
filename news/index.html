@@ -101,6 +101,11 @@
                         endpoint: `news/${get_file_id}`,
                     })
                     .then((res) => {
+                        if(!res.status) {
+                            error.innerHTML = "<h1 class=red>エラー!<br>このお知らせは削除されました。</h1>"
+                            error_display("Loding Error!");
+                            document.getElementById("news_des").innerHTML = `<span class=red>このお知らせは削除されました。</span>`;
+                        } else {
                             document.getElementById("news_title").innerHTML = `<h3>${res.title}</h3>`;
                             switch(res.rank) {
                                 case 0:
@@ -118,12 +123,13 @@
                             document.getElementById("news_des").innerHTML = `${res.description}`;
                             document.getElementById("des").innerHTML = `詳細`;
                             error.innerHTML = "";
+                        }
                         })
                     .catch(() => {
                         error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>";
                         error_display("Loding Error!");
                     });
-            } catch (error) {
+            } catch (er) {
                 error.innerHTML = "<h1 class=red>エラー!<br>このニュースは存在しません</h1>"
                 error_display("Loding Error!");
             }
