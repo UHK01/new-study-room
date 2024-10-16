@@ -38,7 +38,7 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
 <script>
-    if(localStorage.getItem("googleskip")) {
+    if(localStorage.getItem("googleskip") === "true") {
     } else {
         console.log(1);
         window.dataLayer = window.dataLayer || [];

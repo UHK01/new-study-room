@@ -63,17 +63,17 @@
 <script>
     const loading_finish = setInterval(google,100);
     function google() {
-        if(localStorage.getItem("googleskip")) {
-        } else {
-            if(document.getElementById("title").innerText !== "Loading...") {
+        if(document.getElementById("title").innerText !== "Loading...") {
+            if(localStorage.getItem("googleskip") === "true") {
+            } else {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
     
                 gtag('config', 'G-9RJLP66B5G');
             }
+            clearInterval(loading_finish);
         }
-        clearInterval(loading_finish);
     }
 </script>
 <body>
