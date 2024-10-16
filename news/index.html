@@ -65,6 +65,7 @@
         if(document.getElementById("title").innerText !== "Loading...") {
             if(localStorage.getItem("googleskip") === "true") {
             } else {
+                console.log("run");
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());

@@ -38,6 +38,7 @@
 <script>
     if(localStorage.getItem("googleskip")) {
     } else {
+        console.log("run");
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());

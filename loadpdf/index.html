@@ -52,6 +52,7 @@
                                 if(localStorage.getItem("googleskip")) {
                                     document.getElementById("skip").innerHTML = "Skip!";
                                 } else {
+                                    console.log("run");
                                     window.dataLayer = window.dataLayer || [];
                                     function gtag(){dataLayer.push(arguments);}
                                     gtag('js', new Date());
