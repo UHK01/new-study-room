@@ -58,25 +58,6 @@
 
     window.onresize = switchByWidth;
 </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
-<script>
-    const loading_finish = setInterval(google,100);
-    function google() {
-        if(document.getElementById("title").innerText !== "Loading...") {
-            if(localStorage.getItem("googleskip") === "true") {
-            } else {
-                console.log("run");
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-    
-                gtag('config', 'G-9RJLP66B5G');
-            }
-            clearInterval(loading_finish);
-        }
-    }
-</script>
 <body>
     <div class="web" id="web">
         <div id="skip"></div>
@@ -87,13 +68,13 @@
         <div id="file_des">Loading...</div>
         <div id="file_expand">Loading...</div>
         <br>
-        <a href="../">戻る</a>
+        <a href="./">戻る</a>
         <div id="pdf" class=pdf_link>Loading...</div>
         <br>
         <div id="image_tap">Loading...</div>
         <div id="image" class="image_data"><img src="../images/loading.gif" alt="loading..." class="loading_log"></div>
         <br>
-        <a href="../">戻る</a>
+        <a href="./">戻る</a>
     </div>
     <script src="../js/main.js"></script>
     <script>
@@ -125,7 +106,7 @@
                 const tag = data[0].tag;
                 const des = data[0].description;
                 const expand = data[0].expand;
-                if(status === 0 || status === 3) {
+                if(status === 0 || status === 3 || status === 4) {
                     document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
                     document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
                     document.getElementById("file_tag").innerHTML = "タグ:"+tag;
@@ -155,9 +136,6 @@
                         document.getElementById("pdf").innerHTML = `<a href=../loadpdf/?file_id=${get_file_id}>PDFで表示</a>`
                     }
                     error.innerHTML = "";
-                } else if(status === 4) {
-                    error.innerHTML = "<h1 class=red>エラー!<br>このページは存在しません</h1>"
-                    error_display("Loading Error!")
                 } else {
                     error.innerHTML = "<h1 class=red>エラー!<br>このファイルは非公開または削除されています。</h1>"
                     error_display("Loading Error!")

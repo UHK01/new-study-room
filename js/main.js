@@ -12,6 +12,9 @@ function status_check(num) {
         case 3:
             return "<span class=limit>限定公開</span>";
             break;
+        case 4:
+            return "<span class=limit>限定公開_2</span>";
+            break;
         default:
             return "Error!";
     }
