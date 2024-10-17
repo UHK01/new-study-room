@@ -112,6 +112,14 @@
                                 add_data = `<div><a href=./news/?news_id=${d.id}><span class=red>[重要]${d.title}</span>詳細はこちら</a></div>`
                                 news_box.insertAdjacentHTML('beforeend',add_data);
                                 break;
+                            case 3:
+                                add_data = `<div><span class=manage>[お知らせ]</span>${d.title}</div>`
+                                news_box.insertAdjacentHTML('beforeend',add_data);
+                                break;
+                            case 4:
+                                add_data = `<div><span class=red>[重要]${d.title}</div>`
+                                news_box.insertAdjacentHTML('beforeend',add_data);
+                                break;
                         }
                     }
                 })
