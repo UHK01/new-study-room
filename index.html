@@ -135,12 +135,13 @@
                 queries: { filters: 'status[contains]0',limit: 100,fields: 'id,file_name,status,tag,' },
             })
             .then((res) => {
+                console.log(res);
                 file_data = res.contents;
-                file_set(file_data);
+                file_set(file_data,res);
             });
-        function file_set(file_data) {
-            if(file_data.totalCount === 0) {
-                document.getElementById("error").innerHTML = "<span class=red>ファイルが存在しません</span>"
+        function file_set(file_data,res) {
+            if(res.totalCount === 0) {
+                document.getElementById("error").innerHTML = "<span class=red>ファイルが存在しません！</span>"
             } else {
                 document.getElementById("error").innerHTML = ""
                 const table_title = document.getElementById("table_title");
