@@ -89,6 +89,7 @@
         client
             .get({
                 endpoint: 'news',
+                queries: { filters: 'status[equals]true', limit: 100 },
             })
             .then((res) => {
                 const news_box = document.getElementById("news_box_area");
