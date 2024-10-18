@@ -139,27 +139,24 @@
                 file_set(file_data);
             });
         function file_set(file_data) {
-            if(file_data.length === 0) {
+            if(file_data.totalCount === 0) {
                 document.getElementById("error").innerHTML = "<span class=red>ファイルが存在しません</span>"
+            } else {
+                document.getElementById("error").innerHTML = ""
+                const table_title = document.getElementById("table_title");
+                file_data.reverse().forEach(d => {
+                    if(Number(d.status[0]) === 3) {
+                    } else {
+                        let add_data = `<tr>
+                                <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
+                                <td class="border status">${status_check(Number(d.status[0]))}</span></td>
+                                <td class="border tag">${d.tag}</td>
+                                <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
+                            </tr>`;
+                        table_title.insertAdjacentHTML('afterend',add_data);
+                    }
+                });
             }
-            document.getElementById("error").innerHTML = ""
-            const table_title = document.getElementById("table_title");
-            file_data.reverse().forEach(d => {
-                if(Number(d.status[0]) === 3) {
-                } else {
-                    let add_data = `<tr>
-                            <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
-                            <td class="border status">${status_check(Number(d.status[0]))}</span></td>
-                            <td class="border tag">${d.tag}</td>
-                            <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
-                        </tr>`;
-                    table_title.insertAdjacentHTML('afterend',add_data);
-                }
-            });
-            if (!add_data) {
-                table_title.insertAdjacentHTML('afterend',"ファイルがありません！");
-            }
-
         }
         function error_display(error) {
             document.getElementById("title").innerHTML = `${error}`;
