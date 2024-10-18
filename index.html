@@ -156,6 +156,9 @@
                     table_title.insertAdjacentHTML('afterend',add_data);
                 }
             });
+            if (!add_data) {
+                table_title.insertAdjacentHTML('afterend',"ファイルがありません！");
+            }
 
         }
         function error_display(error) {
