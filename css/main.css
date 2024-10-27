@@ -18,6 +18,10 @@ body {
     background-repeat: repeat;
     /* margin-right: 500px; */
     margin-left: 0px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .news_title {
