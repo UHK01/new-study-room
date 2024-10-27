@@ -3,194 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style/index.css">
-    <title>勉強ルーム Test</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="./images/icon.png">
-    <link rel="icon" type="image/png" href="./images/icon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./images/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="./css/main.css">
+    <title>授業ルーム</title>
+    <script src="./js/main.js"></script>
 </head>
-<script type="text/javascript">
-    responce_check = false;
-
-    function switchByWidth(){
-        if (window.matchMedia('(max-width: 300px)').matches) {
-            document.getElementById("web").innerHTML = "申し訳ございません。お客様の端末では当サイトを表示することができません。横画面もしくは他のデバイスをご利用ください。";
-            responce_check = true;
-        } else if (window.matchMedia('(min-width:300px)')) {
-            if (responce_check) {
-                location.reload();
-                responce_check = false;
-            }
-        }
-    }
-
-    window.addEventListener('load' , () => {
-        switchByWidth();
-    })
-
-    window.onresize = switchByWidth;
-</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
-<script>
-    if(localStorage.getItem("googleskip") === "true") {
-    } else {
-        console.log("run");
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-      
-        gtag('config', 'G-9RJLP66B5G');
-    }
-</script>
 <body>
     <div class="web" id="web">
-        <div id="skip"></div>
-        <h1>勉強ルーム TEST</h1>
-        <span class=news>お知らせ</span>
-        <div class="box" id="box">
-            <div id="news_box_area">
-                Loading...
+        <h1>学習ルーム</h1>
+        <p>このサイトでは単語帳や漢字をまとめたサイトです。</p>
+        <div class="news" id="news">
+            <span class="news_title" id="news_title">お知らせ</span>
+            <div class="news_box" id="news_box">
+                <div class="load" id="load">Loading...</div>
             </div>
         </div>
         <br>
-        <div class="file_list_title">ファイルリスト</div>
-        <div class="list">
-            <table class="files">
-                <tr id="table_title">
-                    <th class="border file_name">ファイル名</th>
-                    <th class="border status">状態</th>
-                    <th class="border tag">タグ</th>
-                    <th class="border other">/</th>
-                </tr>
-            </table>
-            <div id="error" class="notfile">Loading...</div>
+        <div class="center">勉強する科目を選択してください。</div>
+        <br>
+        <br>
+        <div class="select" id="select">
+            <div class="english center" id="english">
+                <button onclick="location.href='./english'" class="tango center bt" id="tango">
+                    英単語
+                </button>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="japanese center" id="japanese">
+                <button onclick="location.href='./kanzi'" class="kanzi bt" id="kanzi">
+                    漢字
+                </button>
+            </div>
         </div>
         <br>
-        <div class="hidden_box" id="hidden_box">※PWAをご利用するには?↓(選択)</div>
-        <div class="hidden" id="hidden">PWA(Progressive Web Apps)システムに対応しました。<br>PWAとはアプリのように利用することができ、全画面表記でご利用いただくことが可能です。<br>ご利用方法はiPhone/iPadをお使いの場合はsafariを開き、共有アイコンよりホーム画面に追加を選択することでご利用いただけます。<br>Androidの場合はChromeを開き右上の点を選択し、ホーム画面に追加またはアプリをインストールでご利用いただけます。<br>Win/Macの場合はブラウザ名+pwaでお調べください。</div>
         <br>
-        <a href="./source_code_info" class="manage">当サイトについて</a>
+        <a href="https://newstudy-ktkw.f5.si/" class="link">勉強ルーム（テスト時に使用）</a>
     </div>
-    <script src="./microcms-js-sdk.js"></script>
-    <script>
-        const { createClient } = microcms;
-        // クライアントオブジェクトを作成します。
-        const client = createClient({
-            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
-            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
-            retry: true // 最大2回まで再試行します。
-        });
-        client
-            .get({
-                endpoint: 'news',
-                queries: { filters: 'status[equals]true', limit: 100 },
-            })
-            .then((res) => {
-                const news_box = document.getElementById("news_box_area");
-                let add_data = "お知らせはありません";
-                news_box.innerHTML = `<span class=red>${add_data}</span>`
-                res.contents.forEach(d => {
-                    if(d.status) {
-                        if(document.getElementById("news_box_area").innerText === "お知らせはありません") {
-                            news_box.innerHTML = ``;
-                        }
-                        switch(d.rank) {
-                            case 0:
-                                add_data = `<div><a href=./news/?news_id=${d.id}><span class=manage>[お知らせ]</span><span class=black>${d.title}</span>詳細はこちら</a></div>`
-                                news_box.insertAdjacentHTML('beforeend',add_data);
-                                break;
-                            case 1:
-                                add_data = `<div><span class=manage>[追加]</span><span class=black>${d.title}</span></div>`
-                                news_box.insertAdjacentHTML('beforeend',add_data);
-                                break;
-                            case 2:
-                                add_data = `<div><a href=./news/?news_id=${d.id}><span class=red>[重要]${d.title}</span>詳細はこちら</a></div>`
-                                news_box.insertAdjacentHTML('beforeend',add_data);
-                                break;
-                            case 3:
-                                add_data = `<div><span class=manage>[お知らせ]</span>${d.title}</div>`
-                                news_box.insertAdjacentHTML('beforeend',add_data);
-                                break;
-                            case 4:
-                                add_data = `<div><span class=red>[重要]${d.title}</div>`
-                                news_box.insertAdjacentHTML('beforeend',add_data);
-                                break;
-                        }
-                    }
-                })
-            });
-    </script>
-    <script src="./js/main.js"></script>
-    <script>
-        let file_data = "notfound"
-        client
-            .get({
-                endpoint: 'data',
-                queries: { filters: 'status[contains]0',limit: 100,fields: 'id,file_name,status,tag,' },
-            })
-            .then((res) => {
-                console.log(res);
-                file_data = res.contents;
-                file_set(file_data,res);
-            });
-        function file_set(file_data,res) {
-            if(res.totalCount === 0) {
-                document.getElementById("error").innerHTML = "<span class=red>ファイルが存在しません！</span>"
-            } else {
-                document.getElementById("error").innerHTML = ""
-                const table_title = document.getElementById("table_title");
-                file_data.reverse().forEach(d => {
-                    if(Number(d.status[0]) === 3) {
-                    } else {
-                        let add_data = `<tr>
-                                <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
-                                <td class="border status">${status_check(Number(d.status[0]))}</span></td>
-                                <td class="border tag">${d.tag}</td>
-                                <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
-                            </tr>`;
-                        table_title.insertAdjacentHTML('afterend',add_data);
-                    }
-                });
-            }
-        }
-        function error_display(error) {
-            document.getElementById("title").innerHTML = `${error}`;
-            document.getElementById("news_box_area").innerHTML = `<span class=red>${error}</span>`;
-        }
 
-        window.setTimeout (() => {
-            if(document.getElementById("error").innerText === "Loading...") {
-                // error_display("Loding Error!");
-                document.getElementById("error").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。<br>エラーが発生していない場合は現在も読込中です。</span>`;
-            } else {
-            }
-        },10000)
-        window.setTimeout (() => {
-            if(document.getElementById("news_box_area").innerText === "Loading...") {
-                // error_display("Loding Error!");
-                document.getElementById("news_box_area").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。<br>エラーが発生していない場合は現在も読込中です。</span>`;
-            } else {
-            }
-        },10000)
-        if(localStorage.getItem("googleskip")) {
-            document.getElementById("skip").innerHTML = "Skip!";
-        }
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener("load", function() {
-                navigator.serviceWorker.register('sw.js');
-            });
-        }
-        document.getElementById('hidden_box').addEventListener('click', ()=> {
-                document.getElementById('hidden').classList.toggle('visable');
-            });
-    </script>
 </body>
 </html>

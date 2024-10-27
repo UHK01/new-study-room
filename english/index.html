@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/main.css">
+    <title>英単語</title>
+</head>
+<body>
+    <div class="web" id="web">
+        <h1>英単語</h1>
+        <span>学習する範囲を選択してください。</span>
+        <div class="list" id="list">
+            Loading...
+        </div>
+        <br>
+        <br>
+        <div class="search_title" id="search_title">検索</div>
+        <div class="search_box" id="search_box">
+            <div class="hani" id="hani">
+                <form action="./range_search.html" method="get">
+                    <span class="hani_title" id="hani_title">範囲指定:</span>
+                    <input type="number" name="min" id="min" class="list_number" placeholder="101" required>
+                    ~
+                    <input type="number" name="max" id="max" class="list_number" placeholder="115" required>
+                     <input type="submit" value="検索">
+                </form>
+                <div class="range_search_warning" id="range_search_warning">※最大100個まで</div>
+            </div>
+            <br>
+            <div>
+                <div>
+                    <form action="./word_search.html" method="get">
+                        <span>単語検索:</span>
+                        <input type="text" name="word" placeholder="English" class="word_search" id="word_search">
+                         <input type="submit" value="検索">
+                    </form>
+                    <div class="sug" id="sug" hidden>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST1</div></a>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST2</div></a>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST3</div></a>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST4</div></a>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST5</div></a>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST6</div></a>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST7</div></a>
+                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST8</div></a>
+                    </div>
+                </div>
+                <div>英語,日本語で検索できます</div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <a href="../">戻る</a>
+    </div>
+    <script>
+        document.getElementById("word_search").addEventListener("input", (ev) => {
+            const data = document.getElementById("word_search");
+            document.getElementById("sug").hidden = false;
+            if(data.value === "") {
+                document.getElementById("sug").hidden = true;
+            }
+        })
+        document.getElementById("word_search").addEventListener("focus", (ev) => {
+            const data = document.getElementById("word_search");
+            if(data.value) {
+                document.getElementById("sug").hidden = false;
+            }
+        })
+        document.getElementById("word_search").addEventListener("blur", (ev) => {
+            setTimeout(() => {
+                document.getElementById("sug").hidden = true;
+            }, 200);
+        })
+        
+    </script>
+</body>
+</html>

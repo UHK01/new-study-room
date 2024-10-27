@@ -1,0 +1,133 @@
+.web {
+    margin: 20px auto;
+    padding: 10px;
+    width: 70vw;
+    min-width: 425px;
+    background-color: rgb(242, 242, 242);
+    opacity: 0.8;
+    border-radius: 10px;
+}
+
+.web:after {
+    content:"\A\A Copyright (c) 2024 Yuki All rights reserved";
+    font-size: 10px;
+    white-space: pre;
+}
+
+body {
+    background-image: url(../images/background.gif);
+    background-repeat: repeat;
+    /* margin-right: 500px; */
+    margin-left: 0px;
+}
+
+.news_title {
+    color: rgb(238, 125, 253);
+}
+
+.news_box {
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 150px;
+    overflow: scroll;
+    padding: 5px;
+}
+
+.load {
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.bt {
+    font-size: 30px;
+    width: 50%;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 10px 15px 33px -8px #777777;
+}
+
+.tango {
+    background-color: rgb(218, 255, 186);
+    /* background-color: white; */
+    /* color: rgb(119, 255, 0); */
+    /* opacity: 0.8; */
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.tango:hover {
+    background-color: rgb(167, 255, 90);
+    /* color: white; */
+    /* background-color: rgb(119, 255, 0); */
+}
+
+.kanzi {
+    background-color: rgb(255, 181, 181);
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.kanzi:hover {
+    background-color: rgb(253, 80, 80);
+}
+
+.link {
+    color: rgb(0, 225, 255);
+}
+
+.list_number {
+    width: 80px;
+    font-size: 16px;
+}
+
+.word_search {
+    font-size: 16px;
+    width: 120px;
+}
+
+.search_box {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.list {
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: scroll;
+}
+
+.sug {
+    background-color: white;
+    width: 126px;
+    height: 90px;
+    margin-left: 75px;
+    overflow: scroll;
+    overflow-wrap: break-word;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.sug::-webkit-scrollbar{
+  display: none;
+}
+
+.sug_child {
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    border: 1px solid black;
+    border-top: 0px;
+    color: orange;
+}
+
+.sug_child_link {
+    text-decoration: none;
+}
+
+a {
+    color: rgb(54, 198, 255);
+}
