@@ -108,7 +108,9 @@ body {
 
 .sug {
     background-color: white;
-    width: 126px;
+    width: 30%;
+    min-width: 126px;
+    max-width: 200px;
     height: 90px;
     margin-left: 75px;
     overflow: scroll;

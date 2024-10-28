@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="../manifest.json">
     <link rel="icon" href="../images/icon.png">
     <link rel="icon" type="image/png" href="../images/icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
@@ -44,14 +44,7 @@
                          <input type="submit" value="検索">
                     </form>
                     <div class="sug" id="sug" hidden>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST1</div></a>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST2</div></a>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST3</div></a>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST4</div></a>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST5</div></a>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST6</div></a>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST7</div></a>
-                        <a href="./aaa" class="sug_child_link"><div class="sug_child">TEST8</div></a>
+                        検索中...
                     </div>
                 </div>
                 <div>英語,日本語で検索できます</div>
@@ -61,18 +54,66 @@
         <br>
         <a href="../">戻る</a>
     </div>
+    <script src="../microcms-js-sdk.js"></script>
     <script>
+        const { createClient } = microcms;
+        const client = createClient({
+            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+            // retry: true // 最大2回まで再試行します。
+        });
         document.getElementById("word_search").addEventListener("input", (ev) => {
-            const data = document.getElementById("word_search");
-            document.getElementById("sug").hidden = false;
-            if(data.value === "") {
-                document.getElementById("sug").hidden = true;
-            }
+            setTimeout(() => {
+                const data = document.getElementById("word_search");
+                document.getElementById("sug").hidden = false;
+                const sug = document.getElementById("sug");
+                client
+                    .getList({
+                        endpoint: 'study-room',
+                        queries: { limit: 100, q: data.value }
+                    })
+                    .then((res) => {
+                        if(res.totalCount === 0) {
+                            sug.innerHTML = "見つかりません";
+                        } else {
+                            console.log(res);
+                            sug.innerHTML = "";
+                            res.contents.forEach(d => {
+                                sug.insertAdjacentHTML('beforeend', `<a href="./word_details.html?id=${d.id}" class="sug_child_link"><div class="sug_child">${d.english_word}<br>(${d.japanese_word})</div></a>`);
+                            });
+                        }
+                    })
+                    .catch((err) => console.error(err));
+                if(data.value === "") {
+                    document.getElementById("sug").hidden = true;
+                }
+            }, 0);
         })
         document.getElementById("word_search").addEventListener("focus", (ev) => {
             const data = document.getElementById("word_search");
             if(data.value) {
-                document.getElementById("sug").hidden = false;
+                setTimeout(() => {
+                    const data = document.getElementById("word_search");
+                    document.getElementById("sug").hidden = false;
+                    const sug = document.getElementById("sug");
+                    client
+                        .getList({
+                            endpoint: 'study-room',
+                            queries: { limit: 100, q: data.value }
+                        })
+                        .then((res) => {
+                            if(res.totalCount === 0) {
+                                sug.innerHTML = "見つかりません";
+                            } else {
+                                console.log(res);
+                                res.contents.forEach(d => {
+                                    sug.innerHTML = "";
+                                    sug.insertAdjacentHTML('beforeend', `<a href="./word_details.html?id=${d.id}" class="sug_child_link"><div class="sug_child">${d.english_word}<br>(${d.japanese_word})</div></a>`);
+                                });
+                            }
+                        })
+                        .catch((err) => console.error(err));
+                }, 0);
             }
         })
         document.getElementById("word_search").addEventListener("blur", (ev) => {
