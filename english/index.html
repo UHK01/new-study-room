@@ -106,8 +106,8 @@
                                 sug.innerHTML = "見つかりません";
                             } else {
                                 console.log(res);
+                                sug.innerHTML = "";
                                 res.contents.forEach(d => {
-                                    sug.innerHTML = "";
                                     sug.insertAdjacentHTML('beforeend', `<a href="./word_details.html?id=${d.id}" class="sug_child_link"><div class="sug_child">${d.english_word}<br>(${d.japanese_word})</div></a>`);
                                 });
                             }
