@@ -24,7 +24,7 @@
         const { createClient } = microcms;
         const client = createClient({
             serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
-            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+            apiKey: 'B4PlM6MNa6faflZVlnUFpIsKEVZFRk2aRIbp',
             // retry: true // 最大2回まで再試行します。
         });
         let url = new URL(window.location.href);
@@ -36,7 +36,7 @@
         }
         client
             .getList({
-                endpoint: 'study-room',
+                endpoint: 'english',
                 queries: { ids: contentId }
             })
             .then((res) => {

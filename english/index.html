@@ -60,7 +60,7 @@
         const { createClient } = microcms;
         const client = createClient({
             serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
-            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+            apiKey: 'B4PlM6MNa6faflZVlnUFpIsKEVZFRk2aRIbp',
             // retry: true // 最大2回まで再試行します。
         });
         document.getElementById("word_search").addEventListener("input", (ev) => {
@@ -70,7 +70,7 @@
                 const sug = document.getElementById("sug");
                 client
                     .getList({
-                        endpoint: 'study-room',
+                        endpoint: 'english',
                         queries: { limit: 100, q: data.value }
                     })
                     .then((res) => {
