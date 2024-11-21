@@ -138,3 +138,16 @@ body {
 a {
     color: rgb(54, 198, 255);
 }
+
+.error {
+    color: red;
+}
+
+.red {
+    color: red;
+}
+
+.ms {
+    background-color: gray;
+    cursor: not-allowed;
+}
