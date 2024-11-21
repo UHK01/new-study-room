@@ -138,3 +138,7 @@ body {
 a {
     color: rgb(54, 198, 255);
 }
+
+.error {
+    color: red;
+}

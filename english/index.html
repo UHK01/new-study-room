@@ -121,7 +121,21 @@
                 document.getElementById("sug").hidden = true;
             }, 200);
         })
-        
+        main();
+        function main() {
+            const content = document.getElementById("list");
+            client
+                .getAllContentIds({
+                    endpoint: 'study-room',
+                })
+                .then((res) => {
+                    console.log(res);
+                    res.forEach(d => {
+                        
+                    });
+                })
+                .catch((err) => content.innerHTML = `<span class=red>コンテンツを読み込めませんでした。<br>Erro:${err}</span>`);
+        }
     </script>
 </body>
 </html>
