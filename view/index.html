@@ -126,35 +126,41 @@
                 const des = data[0].description;
                 const expand = data[0].expand;
                 if(status === 0 || status === 3) {
-                    document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
-                    document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
-                    document.getElementById("file_tag").innerHTML = "タグ:"+tag;
-                    document.getElementById("image_tap").innerHTML = "画像タップで拡大";
-                    if(des) {
-                        document.getElementById("file_des").innerHTML = `詳細:${des}`;
+                    if(file_path.length === 0) {
+                        document.getElementById("file_name").innerHTML = "<h1>Redirect to HTML Viewr...</h1>";
+                        document.getElementById("file_status").innerHTML = "HTML Viewrを起動中です。しばらくお待ち下さい"
+                        location.replace(`./html_view.html?file_id=${get_file_id}`);
                     } else {
-                        document.getElementById("file_des").innerHTML = "";
+                        document.getElementById("file_name").innerHTML = "<h1>"+file_name+"</h1>";
+                        document.getElementById("file_status").innerHTML = "ステータス:"+status_check(status)
+                        document.getElementById("file_tag").innerHTML = "タグ:"+tag;
+                        document.getElementById("image_tap").innerHTML = "画像タップで拡大";
+                        if(des) {
+                            document.getElementById("file_des").innerHTML = `詳細:${des}`;
+                        } else {
+                            document.getElementById("file_des").innerHTML = "";
+                        }
+                        if(expand.length !== 0) {
+                            document.getElementById("file_expand").innerHTML = "関連ファイル:<br>";
+                            expand.forEach((ed) => {
+                                document.getElementById("file_expand").insertAdjacentHTML("beforeend",`<a href=?file_id=${ed.id}>${ed.file_name}</a><br>`);
+                            })
+                        } else {
+                            document.getElementById("file_expand").innerHTML = "";
+                        }
+                        let add_image = "";
+                        file_path.forEach(imda => {
+                            add_image = `${add_image}<div class=main_image_div><a href="${imda.url}" data-lightbox="group" id="image1"><img src="${imda.url}" alt="" class="main_image" id="screenimage1"></a></div>`
+                        });
+                        document.getElementById("image").innerHTML = add_image;
+                        if(file_pdf_path === "not") {
+                            // document.getElementById("pdf").innerHTML = `<span class=red>PDF準備中</span>`
+                            document.getElementById("pdf").innerHTML = ``
+                        } else {
+                            document.getElementById("pdf").innerHTML = `<a href=../loadpdf/?file_id=${get_file_id}>PDFで表示</a>`
+                        }
+                        error.innerHTML = "";
                     }
-                    if(expand.length !== 0) {
-                        document.getElementById("file_expand").innerHTML = "関連ファイル:<br>";
-                        expand.forEach((ed) => {
-                            document.getElementById("file_expand").insertAdjacentHTML("beforeend",`<a href=?file_id=${ed.id}>${ed.file_name}</a><br>`);
-                        })
-                    } else {
-                        document.getElementById("file_expand").innerHTML = "";
-                    }
-                    let add_image = "";
-                    file_path.forEach(imda => {
-                        add_image = `${add_image}<div class=main_image_div><a href="${imda.url}" data-lightbox="group" id="image1"><img src="${imda.url}" alt="" class="main_image" id="screenimage1"></a></div>`
-                    });
-                    document.getElementById("image").innerHTML = add_image;
-                    if(file_pdf_path === "not") {
-                        // document.getElementById("pdf").innerHTML = `<span class=red>PDF準備中</span>`
-                        document.getElementById("pdf").innerHTML = ``
-                    } else {
-                        document.getElementById("pdf").innerHTML = `<a href=../loadpdf/?file_id=${get_file_id}>PDFで表示</a>`
-                    }
-                    error.innerHTML = "";
                 } else if(status === 4) {
                     error.innerHTML = "<h1 class=red>エラー!<br>このページは存在しません</h1>"
                     error_display("Loading Error!")
