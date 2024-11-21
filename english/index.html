@@ -17,6 +17,7 @@
 <body>
     <div class="web" id="web">
         <h1>英単語</h1>
+        <div id="bk_error"></div>
         <span>学習する範囲を選択してください。</span>
         <div class="list" id="list">
             Loading...
@@ -47,7 +48,7 @@
                         検索中...
                     </div>
                 </div>
-                <div>英語,日本語で検索できます</div>
+                <div>英語,日本語で検索できます<br>サジェストで見つからない場合は検索をしてみてください</div>
             </div>
         </div>
         <br>
@@ -59,7 +60,7 @@
         const { createClient } = microcms;
         const client = createClient({
             serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
-            apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+            apiKey: 'B4PlM6MNa6faflZVlnUFpIsKEVZFRk2aRIbp',
             // retry: true // 最大2回まで再試行します。
         });
         document.getElementById("word_search").addEventListener("input", (ev) => {
@@ -69,7 +70,7 @@
                 const sug = document.getElementById("sug");
                 client
                     .getList({
-                        endpoint: 'study-room',
+                        endpoint: 'english',
                         queries: { limit: 100, q: data.value }
                     })
                     .then((res) => {
@@ -121,20 +122,9 @@
                 document.getElementById("sug").hidden = true;
             }, 200);
         })
-        main();
-        function main() {
-            const content = document.getElementById("list");
-            client
-                .getAllContentIds({
-                    endpoint: 'study-room',
-                })
-                .then((res) => {
-                    console.log(res);
-                    res.forEach(d => {
-                        
-                    });
-                })
-                .catch((err) => content.innerHTML = `<span class=red>コンテンツを読み込めませんでした。<br>Erro:${err}</span>`);
+        if(localStorage.getItem("error")) {
+            document.getElementById("bk_error").innerHTML = `<div class=error>${localStorage.getItem("error")}</div>`;
+            localStorage.removeItem("error")
         }
     </script>
 </body>

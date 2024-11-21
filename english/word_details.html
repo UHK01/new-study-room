@@ -3,9 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>単語詳細</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <title id="main_title">単語詳細</title>
 </head>
 <body>
-    
+    <div class="web" id="web">
+        <h1 id="title">Loading...</h1>
+        <div id="english">Loading...</div>
+        <div id="japanese">Loading...</div>
+        <br>
+        <div id="google">Loadding...</div>
+        <div id="weblio">Loadding...</div>
+        ->エラーが発生する場合があります
+        <br>
+        <br>
+        <a href="./">戻る</a>
+    </div>
+    <script src="../microcms-js-sdk.js"></script>
+    <script>
+        const { createClient } = microcms;
+        const client = createClient({
+            serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+            apiKey: 'B4PlM6MNa6faflZVlnUFpIsKEVZFRk2aRIbp',
+            // retry: true // 最大2回まで再試行します。
+        });
+        let url = new URL(window.location.href);
+        let params = url.searchParams;
+        const contentId = params.get('id');
+        if(!contentId) {
+            localStorage.setItem("error", "エラー！コンテンツIDを取得できませんでした");
+            location.replace('./');
+        }
+        client
+            .getList({
+                endpoint: 'english',
+                queries: { ids: contentId }
+            })
+            .then((res) => {
+                if(res.totalCount === 0) {
+                    document.getElementById("title").innerText = "Error!";
+                    localStorage.setItem("error", "エラー！このコンテンツは存在しません");
+                    location.replace('./');
+                } else {
+                    const data = res.contents[0];
+                    console.log(data);
+                    insert(data);
+                }
+            })
+            .ctch((err) => console.error(err));
+            function insert(data)
+            {
+                document.getElementById("title").innerText = "単語詳細("+data.english_word+")"
+                document.getElementById("english").innerText = "英単語:" + data.english_word
+                document.getElementById("japanese").innerText = "日本語訳:" + data.japanese_word
+                document.getElementById("google").innerHTML = `<a href=https://www.google.com/search?q=${data.english_word} target="_blank">Google検索をする</a>`
+                document.getElementById("weblio").innerHTML = `<a href=https://ejje.weblio.jp/content/${data.english_word} target="_blank">weblioで検索する</a>`
+            }
+    </script>
 </body>
 </html>
