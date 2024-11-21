@@ -66,7 +66,6 @@
                     <th class="border file_name">ファイル名</th>
                     <th class="border status">状態</th>
                     <th class="border tag">タグ</th>
-                    <th class="border other">/</th>
                 </tr>
             </table>
             <div id="error" class="notfile">Loading...</div>
@@ -152,7 +151,6 @@
                                 <td class="border file_name"><a href="./view/?file_id=${d.id}" class="fl_op">${d.file_name}</a></td>
                                 <td class="border status">${status_check(Number(d.status[0]))}</span></td>
                                 <td class="border tag">${d.tag}</td>
-                                <td class="border other"><a href="./view/?file_id=${d.id}" class="manage">閲覧</a></td>
                             </tr>`;
                         table_title.insertAdjacentHTML('afterend',add_data);
                     }
