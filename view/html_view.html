@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" defer type="text/javascript"></script>
+    <title id="title">Loading...</title>
+    <link rel="icon" type="image/png" href="../images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <meta name="robots" content="noindex" />
+</head>
+<script src="../microcms-js-sdk.js"></script>
+<script>
+    const { createClient } = microcms;
+    // クライアントオブジェクトを作成します。
+    const client = createClient({
+        serviceDomain: 'uhkstudy', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
+        apiKey: 'kJhU9ia5FU7sXMntcQxGuDJBzUlSi3QMzV0a',
+        retry: true // 最大2回まで再試行します。
+    });
+    let file_data = "notfound"
+    let url = new URL(window.location.href);
+    let params = url.searchParams;
+    const get_file_id = params.get('file_id');
+    client
+        .get({
+            endpoint: `data/${get_file_id}`,
+        })
+        .then((res) => {
+            document.getElementById("title").innerHTML = res.file_name;
+        })
+</script>
+<script type="text/javascript">
+    responce_check = false;
+
+    function switchByWidth(){
+        if (window.matchMedia('(max-width: 300px)').matches) {
+            document.getElementById("web").innerHTML = "申し訳ございません。お客様の端末では当サイトを表示することができません。横画面もしくは他のデバイスをご利用ください。";
+            responce_check = true;
+        } else if (window.matchMedia('(min-width:300px)')) {
+            if (responce_check) {
+                location.reload();
+                responce_check = false;
+            }
+        }
+    }
+
+    window.addEventListener('load' , () => {
+        switchByWidth();
+    })
+
+    window.onresize = switchByWidth;
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
+<script>
+    const loading_finish = setInterval(google,100);
+    function google() {
+        if(document.getElementById("title").innerText !== "Loading...") {
+            if(localStorage.getItem("googleskip") === "true") {
+            } else {
+                console.log("run");
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+    
+                gtag('config', 'G-9RJLP66B5G');
+            }
+            clearInterval(loading_finish);
+        }
+    }
+</script>
+<body>
+    <div class="web" id="web">
+        <div id="skip"></div>
+        <div id="error">Loading...</div>
+        <div id="file_name">Loading...</div>
+        <div id="status">Loading...</div>
+        <div id="tag">Loading...</div>
+        <br>
+        <div id="des_title">Loading...</div>
+        <div id="des" class="border">Loading...</div>
+        <br>
+        <a href="../">戻る</a>
+        <div>Powered By HTML Viewr</div>
+    </div>
+    <script src="../js/main.js"></script>
+    <script>
+        if(!get_file_id) {
+            error.innerHTML = "<h1 class=red>エラー!<br>このファイルは存在しません</h1>";
+            error_display("Loding Error!");
+        } else {
+            try {
+                client
+                    .get({
+                        endpoint: `data/${get_file_id}`,
+                    })
+                    .then((res) => {
+                        switch (Number(res.status[0])) {
+                            case 1:
+                                error.innerHTML = "<h1 class=red>エラー!<br>このファイルは利用出来ません。</h1>"
+                                error_display("Loding Error!");
+                                document.getElementById("des").innerHTML = `<span class=red>このファイルは利用出来ません。</span>`;
+                                break;
+                            case 2:
+                                error.innerHTML = "<h1 class=red>エラー!<br>このファイルは削除されました。</h1>"
+                                error_display("Loding Error!");
+                                document.getElementById("des").innerHTML = `<span class=red>このファイルは削除されました。</span>`;
+                                break;
+                            case 4:
+                                error.innerHTML = "<h1 class=red>エラー!<br>このファイルは利用出来ません。</h1>"
+                                error_display("Loding Error!");
+                                document.getElementById("des").innerHTML = `<span class=red>このファイルは利用出来ません。</span>`;
+                                break;
+                            default:
+                                error.innerHTML = "<h1 class=red>エラー!<br>このファイルは利用出来ません。</h1>"
+                                error_display("Loding Error!");
+                                document.getElementById("des").innerHTML = `<span class=red>このファイルは利用出来ません。</span>`;
+                                break;
+                            case 3:
+                            case 0:
+                                const status = Number(res.status[0]);
+                                document.getElementById("file_name").innerHTML = `<h1>${res.file_name}</h1>`;
+                                document.getElementById("status").innerHTML = "ステータス:"+status_check(status);
+                                document.getElementById("tag").innerHTML = "タグ:"+res.tag;
+                                document.getElementById("des_title").innerHTML = `詳細`;
+                                document.getElementById("des").innerHTML = `${res.description}`;
+                                error.innerHTML = "";
+                                break;
+                        }
+                        })
+                    .catch(() => {
+                        error.innerHTML = "<h1 class=red>エラー!<br>このファイルは存在しません</h1>";
+                        error_display("Loding Error!");
+                    });
+            } catch (er) {
+                error.innerHTML = "<h1 class=red>エラー!<br>このファイルは存在しません</h1>"
+                error_display("Loding Error!");
+            }
+        }
+
+        function error_display(error) {
+            document.getElementById("title").innerHTML = `${error}`;
+            document.getElementById("file_name").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("status").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("tag").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("des_title").innerHTML = `<span class=red>${error}</span>`;
+            document.getElementById("des").innerHTML = `<span class=red>${error}</span>`;
+        }
+
+        window.setTimeout (() => {
+        if(document.getElementById("des").innerText === "Loading...") {
+            error_display("Loding Error!");
+            document.getElementById("des").innerHTML = `<span class=red>読み込みに失敗しました。ネットワークが不安定な可能性があります。ネットワークの設定をご確認ください。<br>問題が無い場合はサーバ内部でエラーが発生している場合があります。<br>エラーが発生していない場合は現在も読込中です。</span>`;
+            document.getElementById("error").innerHTML = `<span class=red>Loding Error!</span>`;
+        } else {
+        }
+    },10000)
+    if(localStorage.getItem("googleskip")) {
+        document.getElementById("skip").innerHTML = "Skip!";
+    }
+    </script>
+</body>
+</html>

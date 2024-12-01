@@ -4,7 +4,8 @@ a {
 }
 .web {
     margin:20px auto;
-    width:360px;
+    width: 88%;
+    max-width: 1000px;
     padding:5px 5px;
     border:1px solid #bababa;
     background-color: #efefef;
@@ -14,6 +15,7 @@ a {
 }
 
 body {
+    margin:20px auto;
     /* font-family: "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体", "YuGothic", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", "verdana", sans-serif; */
     background-image: url(../images/background.gif);
     background-repeat: repeat;
@@ -250,29 +252,35 @@ body {
 }
 
 .file_name {
-    width: 180px;
+    width: 50vw;
+    min-width: 100px;
 }
 
-.plus_box {
-    width: 49px;
-}
+/* .plus_box {
+    width: 10vw;
+    min
+} */
 
 .status {
-    width: 49px;
+    width: 10vw;
     text-align: center;
+    min-width: 35px;
 }
 
 .tag {
-    width: 80px;
+    width: 40vw;
+    min-width: 50px;
 }
+
+
+/* .other {
+    text-align: center;
+    width: 5vw;
+} */
 
 .list {
     height: 255px;
     overflow: scroll;
-}
-
-.other {
-    width: 33px;
 }
 
 .web:after {
@@ -304,10 +312,10 @@ body {
     width: 130px;
 }
 
-@media (min-width: 420px) {
+/* @media (min-width: 420px) {
     .web {
         margin:20px auto;
-        width:500px;
+        width: 88%;
         padding:5px 20px;
         border:1px solid #bababa;
         background-color: #efefef;
@@ -341,7 +349,7 @@ body {
         border-collapse:  collapse;
         width: 200px;
     }
-}
+} */
 
 .content_box {
     border: 1px solid black;
