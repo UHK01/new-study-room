@@ -42,27 +42,31 @@
                     .then((res) => {
                         document.getElementById("msg").innerText = "読み込み完了 処理中..."
                         const data = res.contents[0];
-                        document.getElementById("title").innerText = `PDF-${data.file_name}`;
-                        const pdf_link = data.file_pdf_path;
-                        const loading_finish = setInterval(google,100);
-                        function google() {
-                            if(document.getElementById("title").innerText !== "LoadingPDF...") {
-                                document.getElementById("main_title").innerText = "転送中..."
-                                document.getElementById("msg").innerText = "まもなくです"
-                                if(localStorage.getItem("googleskip")) {
-                                    document.getElementById("skip").innerHTML = "Skip!";
-                                } else {
-                                    console.log("run");
-                                    window.dataLayer = window.dataLayer || [];
-                                    function gtag(){dataLayer.push(arguments);}
-                                    gtag('js', new Date());
-                    
-                                    gtag('config', 'G-9RJLP66B5G');
+                        if(data.status !== 0) {
+                            document.getElementById("error").innerHTML = `<span class=red>処理に失敗しました。<br>ファイルは非公開または削除されています。<br>一つ前のページに戻ってください。</span>`;
+                        } else {
+                            document.getElementById("title").innerText = `PDF-${data.file_name}`;
+                            const pdf_link = data.file_pdf_path;
+                            const loading_finish = setInterval(google,100);
+                            function google() {
+                                if(document.getElementById("title").innerText !== "LoadingPDF...") {
+                                    document.getElementById("main_title").innerText = "転送中..."
+                                    document.getElementById("msg").innerText = "まもなくです"
+                                    if(localStorage.getItem("googleskip")) {
+                                        document.getElementById("skip").innerHTML = "Skip!";
+                                    } else {
+                                        console.log("run");
+                                        window.dataLayer = window.dataLayer || [];
+                                        function gtag(){dataLayer.push(arguments);}
+                                        gtag('js', new Date());
+                        
+                                        gtag('config', 'G-9RJLP66B5G');
+                                    }
+                                    clearInterval(loading_finish);
+                                    window.setTimeout(() => {
+                                        location.replace(pdf_link);
+                                    },100)
                                 }
-                                clearInterval(loading_finish);
-                                window.setTimeout(() => {
-                                    location.replace(pdf_link);
-                                },100)
                             }
                         }
                     })
