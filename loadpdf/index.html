@@ -42,7 +42,7 @@
                     .then((res) => {
                         document.getElementById("msg").innerText = "読み込み完了 処理中..."
                         const data = res.contents[0];
-                        if(data.status !== 0) {
+                        if(status === 0 || status === 3) {
                             document.getElementById("error").innerHTML = `<span class=red>処理に失敗しました。<br>ファイルは非公開または削除されています。<br>一つ前のページに戻ってください。</span>`;
                         } else {
                             document.getElementById("title").innerText = `PDF-${data.file_name}`;
