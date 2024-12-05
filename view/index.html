@@ -34,7 +34,9 @@
             queries: { ids: get_file_id },
         })
         .then((res) => {
-            document.getElementById("title").innerHTML = res.contents[0].file_name;
+            if(Number(res.contents[0].status[0]) === 0 || Number(res.contents[0].status[0]) === 3) {
+                document.getElementById("title").innerHTML = res.contents[0].file_name;
+            }
         });
 </script>
 <script type="text/javascript">
