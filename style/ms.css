@@ -1,0 +1,19 @@
+.error{
+    color:red;
+    text-align: center;
+}
+
+h1 {
+    padding-top: 10px;
+}
+
+html {
+    background-color: aliceblue;
+    font-family: "YakuHanJP_Noto", "Noto Sans JP", "Hiragino Kaku Gothic Pro W3", "ヒラギノ角ゴ Pro W3", "メイリオ", "sans-serif";
+}
+
+.link {
+    text-align: center;
+    color: blue;
+    text-decoration: none;
+}

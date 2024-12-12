@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/index.css">
+    <link rel="stylesheet" href="../style/index.css" id="css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" defer type="text/javascript"></script>
@@ -11,11 +11,12 @@
     <link rel="icon" type="image/png" href="../images/icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gftatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" id="gf">
     <meta name="robots" content="noindex" />
 </head>
 <script src="../microcms-js-sdk.js"></script>
+<script src="../ms.js"></script>
 <script>
     const { createClient } = microcms;
     // クライアントオブジェクトを作成します。
@@ -99,6 +100,11 @@
     </div>
     <script src="../js/main.js"></script>
     <script>
+        if(ms) {
+            document.getElementById("web").innerHTML = ms_message;
+            document.getElementById("css").href = "/style/ms.css";
+            document.getElementById("gf").href = "";
+        }
         if (!get_file_id) {
             error.innerHTML = "<h1 class=red>エラー!<br>ページを読み込めませんでした。<br>ファイルが存在しません。</h1>"
             error_display("Loading Error!")

@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style/index.css">
+    <link rel="stylesheet" href="./style/index.css" id="css">
     <title>勉強ルーム</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="./images/icon.png">
     <link rel="icon" type="image/png" href="./images/icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="./images/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gftatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" id="gf">
     <meta name="robots" content="noindex" />
 </head>
+<script src="./ms.js"></script>
 <script type="text/javascript">
     responce_check = false;
 
@@ -78,6 +79,11 @@
     </div>
     <script src="./microcms-js-sdk.js"></script>
     <script>
+        if(ms) {
+            document.getElementById("web").innerHTML = ms_message;
+            document.getElementById("css").href = "/style/ms.css";
+            document.getElementById("gf").href = "";
+        }
         const { createClient } = microcms;
         // クライアントオブジェクトを作成します。
         const client = createClient({
