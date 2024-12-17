@@ -91,7 +91,7 @@
         <div id="average">全教科の平均:<span id="average_result">No Data!</span></div>
         <div id="total">全教科の合計:<span id="total_result">No Data!</span></div>
         <br>
-        <div onclick="deletekey()" class="deletekey">保存したデータを削除(確認無し)</div>
+        <div onclick="deletekey()" class="deletekey">保存したデータを削除</div>
         <br>
         <br>
         <a href="../">戻る</a>
@@ -136,6 +136,7 @@
             all_point();
         }
         function deletekey() {
+            if(!confirm("本当に削除しますか?\n(全てのデータが削除されます)")){return}
             localStorage.removeItem("kokugo");
             localStorage.removeItem("english");
             localStorage.removeItem("tigaku");
