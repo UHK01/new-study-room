@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/index.css" id="css">
+    <title>勉強ルーム</title>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" href="../images/icon.png">
+    <link rel="icon" type="image/png" href="../images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gftatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" id="gf">
+    <meta name="robots" content="noindex" />
+</head>
+<script src="../ms.js"></script>
+
+<script type="text/javascript">
+    responce_check = false;
+    function switchByWidth(){
+        if (window.matchMedia('(max-width: 300px)').matches) {
+            document.getElementById("web").innerHTML = "申し訳ございません。お客様の端末では当サイトを表示することができません。横画面もしくは他のデバイスをご利用ください。";
+            responce_check = true;
+        } else if (window.matchMedia('(min-width:300px)')) {
+            if (responce_check) {
+                location.reload();
+                responce_check = false;
+            }
+        }
+    }
+
+    window.addEventListener('load' , () => {
+        switchByWidth();
+    })
+
+    window.onresize = switchByWidth;
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJLP66B5G"></script>
+<script>
+    if(localStorage.getItem("googleskip") === "true") {
+    } else {
+        console.log("run");
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'G-9RJLP66B5G');
+    }
+</script>
+<body>
+    <div class="web" id="web">
+        <div id="skip"></div>
+        <h1>テストの結果を集計</h1>
+        <div>
+            このページでは、テストの点数をまとめることができ、平均などを計算することができます。
+            <br>
+            ※ここに入力されたテストの結果は、外部に送信されることはありません。
+        </div>
+        <div id="testlist" class="testlist">
+            <table>
+                <tr>
+                    <td><label for="kokugo">論理表現:</label></td>
+                    <td><input type="number" name="kokugo" id="kokugo" class="kokugo point" placeholder="100" max="200" min="0"></td>
+                </tr>
+                <tr>
+                    <td><label for="english">英語:</label></td>
+                    <td><input type="number" name="english" id="english" class="english point" placeholder="100" max="200" min="0"></td>
+                </tr>
+                <tr>
+                    <td><label for="tigaku">地学基礎:</label></td>
+                    <td><input type="number" name="tigaku" id="tigaku" class="tigaku point" placeholder="100" max="200" min="0"></td>
+                </tr>
+                <tr>
+                    <td><label for="history1">歴史総合:</label></td>
+                    <td><input type="number" name="history1" id="history1" class="history1 point" placeholder="100" max="200" min="0"></td>
+                </tr>
+                <tr>
+                    <td><label for="sinrinkagaku">森林科学:</label></td>
+                    <td><input type="number" name="sinrinkagaku" id="sinrinkagaku" class="sinrinkagaku point" placeholder="100" max="200" min="0"></td>
+                </tr>
+                <tr>
+                    <td><label for="sinrinkeiei">森林経営:</label></td>
+                    <td><input type="number" name="sinrinkeiei" id="sinrinkeiei" class="sinrinkeiei point" placeholder="100" max="200" min="0"></td>
+                </tr>
+            </table>
+        </div>
+        <div id="save" class="saved" hidden></div>
+        <br>
+        <div id="average">全教科の平均:<span id="average_result">No Data!</span></div>
+        <div id="total">全教科の合計:<span id="total_result">No Data!</span></div>
+        <br>
+        <div onclick="deletekey()" class="deletekey">保存したデータを削除(確認無し)</div>
+        <br>
+        <br>
+        <a href="../">戻る</a>
+    </div>
+    <script>
+        if(ms) {
+            document.getElementById("web").innerHTML = ms_message;
+            document.getElementById("css").href = "/style/ms.css";
+            document.getElementById("gf").href = "";
+        }
+
+        load();
+
+        Array.from(document.getElementsByClassName("point")).forEach(element => {
+            element.addEventListener("input", (data) => {
+                save(data.target.id,data.target.value);
+                all_point();
+            })
+        });
+        function all_point() {
+            const total = Number(kokugo.value) + Number(english.value) + Number(tigaku.value) + Number(history1.value) + + Number(sinrinkagaku.value) + Number(sinrinkeiei.value)
+            document.getElementById("total_result").innerText = total;
+            average(total);
+            return total;
+        }
+        function average(total) {
+            const average = total / 6;
+            document.getElementById("average_result").innerText =  Math.round(average * 100000)/100000;
+        }
+        function save(id,point) {
+            localStorage.setItem(id, point);
+            document.getElementById("save").innerText = "データを保存しました";
+            document.getElementById("save").hidden = false;
+        }
+        function load() {
+            document.getElementById("kokugo").value = localStorage.getItem("kokugo");
+            document.getElementById("english").value = localStorage.getItem("english");
+            document.getElementById("tigaku").value = localStorage.getItem("tigaku");
+            document.getElementById("history1").value = localStorage.getItem("history1");
+            document.getElementById("sinrinkagaku").value = localStorage.getItem("sinrinkagaku");
+            document.getElementById("sinrinkeiei").value = localStorage.getItem("sinrinkeiei");
+            all_point();
+        }
+        function deletekey() {
+            localStorage.removeItem("kokugo");
+            localStorage.removeItem("english");
+            localStorage.removeItem("tigaku");
+            localStorage.removeItem("history1");
+            localStorage.removeItem("sinrinkagaku");
+            localStorage.removeItem("sinrinkeiei");
+            document.getElementById("kokugo").value = "";
+            document.getElementById("english").value = "";
+            document.getElementById("tigaku").value = "";
+            document.getElementById("history1").value = "";
+            document.getElementById("sinrinkagaku").value = "";
+            document.getElementById("sinrinkeiei").value = "";
+            document.getElementById("save").innerText = "データを削除しました";
+            document.getElementById("save").hidden = false;
+        }
+        setInterval(() => {
+            if(!document.getElementById("save").hidden) {
+                setTimeout(() => {
+                    document.getElementById("save").hidden = true;
+                },5000)
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

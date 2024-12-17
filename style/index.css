@@ -487,3 +487,20 @@ body {
 .limit {
     color: #069bfe;
 }
+
+.point {
+    font-size: 16px;
+    width: 50px;
+}
+
+.saved {
+    color: black;
+    background-color: rgb(201, 255, 196);
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.deletekey {
+    color: blue;
+    cursor: pointer;
+}
